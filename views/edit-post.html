@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa bài viết</title>
+    <style>
+        /* General styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: #000;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background video */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Main container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            z-index: 1;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5); /* Transparent black background */
+            border-radius: 10px;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        /* Input fields */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* Button styles */
+        .button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Cancel button */
+        .cancel-btn {
+            margin-top: 10px;
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Notification styles */
+        .notification {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background video -->
+    <video class="background-video" autoplay loop muted>
+        <source src="../videos/Body.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Main container -->
+    <div class="container">
+        <h1>Chỉnh sửa bài viết</h1>
+
+        <!-- Form to edit the post -->
+        <form id="editForm" action="" method="POST">
+            <!-- Tiêu đề bài viết -->
+            <input type="text" name="title" class="input-field" placeholder="Tiêu đề bài viết" required>
+
+            <!-- Nội dung bài viết -->
+            <textarea name="content" class="input-field" rows="6" placeholder="Nội dung bài viết" required></textarea>
+
+            <!-- Chọn hình ảnh -->
+            <input type="file" name="image" class="input-field" accept="image/*">
+
+            <!-- Lưu và Hủy -->
+            <button type="button" class="button" onclick="savePost()">Lưu thay đổi</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='manage-posts.html'">Hủy bỏ</button>
+        </form>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span>Đã lưu thay đổi thành công!</span>
+        <button onclick="closeNotification()">X</button>
+    </div>
+
+    <script>
+        // Function to save post and show the notification
+        function savePost() {
+            // Đây là nơi bạn sẽ gọi API để lưu bài viết (để trống cho API sau)
+            
+            // Hiển thị thông báo thành công
+            document.getElementById('notification').style.display = 'block';
+
+            // Sau 3 giây, quay về trang quản lý bài viết
+            setTimeout(function() {
+                window.location.href = 'manage-posts.html';
+            }, 3000); // 3 giây
+        }
+
+        // Function to close the notification manually
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

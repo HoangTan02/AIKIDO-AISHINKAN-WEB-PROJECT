@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài viết của User</title>
+    <style>
+        /* General styles for the page */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2C3E50; /* Màu nền tối sang trọng đồng điệu với trang login */
+            color: #ECF0F1; /* Màu chữ sáng */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main container */
+        .container {
+            background-color: #34495E; /* Nền container đồng điệu với trang login */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 24px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        /* Button styles */
+        .button {
+            padding: 12px 25px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2980B9;
+        }
+
+        /* Back button */
+        .back-btn {
+            padding: 12px 25px;
+            background-color: #F39C12;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #E67E22;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main container -->
+    <div class="container">
+        <h1>Trang quản lý của User</h1>
+        
+        <!-- Quản lý bài viết section -->
+        <div class="section">
+            <p class="section-title">Quản lý bài viết</p>
+            <a href="manage-posts.html">
+                <button class="button">Quản lý bài viết</button>
+            </a>
+        </div>
+
+        <!-- Back button -->
+        <button class="back-btn" onclick="window.location.href='login.html'">Quay lại đăng nhập</button>
+    </div>
+
+</body>
+</html>

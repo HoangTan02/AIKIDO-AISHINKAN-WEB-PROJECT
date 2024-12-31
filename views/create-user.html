@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo tài khoản mới</title>
+    <style>
+        /* CSS cho toàn bộ trang */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2C3E50; /* Màu nền tối sang trọng */
+        }
+
+        /* Container chính của form tạo tài khoản */
+        .container {
+            background-color: #34495E; /* Màu nền container đậm và lịch thiệp */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+            font-size: 2.2rem;
+            color: #ECF0F1;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Định dạng cho các form input */
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 1px solid #BDC3C7;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            background-color: #ECF0F1;
+            color: #2C3E50;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            border: 1px solid #3498DB; /* Đổi màu viền khi focus */
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.6); /* Hiệu ứng sáng khi focus */
+        }
+
+        /* Định dạng cho nút tạo tài khoản */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980B9;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        /* Định dạng cho các thông báo lỗi */
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1><b>TẠO TÀI KHOẢN</b></h1>
+        <form id="create-user-form">
+            <input type="text" id="name" placeholder="Họ và Tên" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Mật khẩu" required>
+            <button type="submit">Tạo tài khoản</button>
+        </form>
+        <div class="error" id="error-message"></div>
+        <!-- Back button -->
+        <button class="back-btn" onclick="window.location.href='manage-users.html'">Quay lại trang quản lý người dùng</button>
+    </div>
+
+    <script>
+        const API_URL = "https://localhost:7296/api/Accounts/Register";  // Đảm bảo URL API chính xác
+
+        document.getElementById("create-user-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Reset error message
+            document.getElementById("error-message").innerHTML = "";
+
+            const accountData = {
+                name: name,
+                email: email,
+                password: password
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(accountData),
+                });
+
+                if (response.ok) {
+                    alert("Tạo tài khoản thành công.");
+                    window.location.href = "Admin.html";  // Chuyển hướng về trang Admin.html
+                } else if (response.status === 409) {
+                    const errorData = await response.text();
+                    document.getElementById("error-message").innerText = errorData;
+                } else {
+                    document.getElementById("error-message").innerText = "Lỗi khi tạo tài khoản. Vui lòng thử lại.";
+                }
+            } catch (error) {
+                document.getElementById("error-message").innerText = "Lỗi kết nối tới API: " + error.message;
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vni">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu | AIKIDO AISHINKAN VIET NAM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;700&display=swap">
+    <script src="../config/loadHeaderFooter.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
+</head>
+<style>
+    /* Cấu trúc chính của trang */
+    main {
+        display: flex;
+        gap: 40px;
+        margin: 20px;
+    }
+
+    /* Phần giới thiệu về Aikido (phần bên phải) */
+    .about {
+        padding: 20px;
+        background-color: #f4f4f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    /* Cây cấp bậc (phần bên trái) */
+    #user-hierarchy {
+        padding: 20px;
+        background-color: #ffffff; /* Màu nền tương tự phần giới thiệu */
+        border-radius: 10px; /* Bo tròn góc */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Bóng đổ mềm mại */
+        border: 1px solid #dcdde1; /* Đường viền mỏng để tạo sự phân biệt */
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        overflow: hidden; /* Đảm bảo nội dung không bị lộ khi trượt */
+        transition: transform 0.5s ease; /* Hiệu ứng trượt mượt mà */
+        transform: translateX(-100%); /* Ẩn cây cấp bậc ra ngoài màn hình */
+        position: absolute;
+        left: 0;
+        max-width: 800px;
+        max-height: 500px; /* Chiều cao tối đa */
+        overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+    }
+
+    /* Các cấp độ trong cây cấp bậc */
+    .level {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi cần */
+        position: relative;
+        max-height: 300px; /* Chiều cao tối đa của mỗi cấp độ */
+        overflow-y: auto; /* Cho phép cuộn nếu vượt quá chiều cao */
+    }
+
+    /* Mỗi người dùng trong cây gia phả */
+    .user-item {
+        border: 2px solid #3498db;
+        padding: 10px 15px;
+        border-radius: 12px;
+        width: 120px; /* Kích thước giảm bớt */
+        background-color: #ffffff;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+        flex-shrink: 1; /* Giúp phần tử thu nhỏ lại khi không đủ không gian */
+    }
+
+    /* Khi màn hình nhỏ, điều chỉnh kích thước người dùng */
+    @media (max-width: 768px) {
+        .user-item {
+            width: 100px; /* Kích thước nhỏ hơn trên màn hình nhỏ */
+        }
+        .level {
+            gap: 20px; /* Giảm khoảng cách giữa các phần tử */
+        }
+    }
+
+    /* Cấu trúc hình ảnh người dùng */
+    .user-image {
+        width: 85px; /* Kích thước ảnh người dùng nhỏ lại một chút */
+        height: 85px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+        object-fit: cover;
+    }
+
+    /* Đường kết nối giữa các người dùng */
+    .level::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #3498db;
+    top: 50%;
+    left: 0;
+    }
+
+    /* Tạo đường nối giữa các người dùng trong cấp bậc */
+    .level .user-item::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background-color: #000000;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    }
+
+    /* Hiệu ứng khi hover vào các ô người dùng */
+    .user-item:hover {
+    background-color: #3498db; /* Đổi màu nền khi hover */
+    color: white; /* Chữ màu trắng khi hover */
+    transform: translateY(-5px); /* Đẩy lên một chút để tạo cảm giác động */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Tăng độ bóng đổ khi hover */
+    }
+
+    /* Tạo phong cách cho tên người dùng */
+    .user-item h3 {
+    font-family: 'Lora', serif; /* Dùng font chữ phá cách cho tên */
+    font-size: 16px; /* Giảm kích thước chữ tên người dùng */
+    color: #2c3e50; /* Màu chữ tên người dùng */
+    font-weight: bold;
+    letter-spacing: 1px; /* Khoảng cách chữ đẹp hơn */
+    }
+
+    /* Màu sắc cho các thông tin khác */
+    .user-item p {
+    font-family: 'Open Sans', sans-serif; /* Dùng font chữ dễ đọc cho các thông tin */
+    font-size: 12px; /* Giảm kích thước chữ cho các thông tin */
+    color: #7f8c8d; /* Màu sắc cho đai và cấp độ */
+    margin: 5px 0;
+    }
+
+    /* Hiệu ứng cho cấp bậc */
+    h2 {
+        font-size: 30px;
+        color: #2c3e50;
+        text-align: center;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+        font-family: 'Lora', serif; /* Dùng font chữ phá cách cho tiêu đề */
+    }
+    /* Tạo khoảng cách giữa các section */
+    section {
+    margin: 0; /* Loại bỏ margin mặc định */
+    padding: 0; /* Loại bỏ padding nếu có */
+    }
+
+    /* Định dạng cho mũi tên và chữ Huấn Luyện Viên */
+    .trainer-icon {
+    position: fixed;
+    left: 0;
+    top: 36%;
+    transform: translateY(-50%);
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    cursor: pointer;
+    transition: width 0.3s ease; /* Thêm hiệu ứng thay đổi chiều rộng */
+    width: 60px; /* Thu gọn chiều rộng */
+    }
+
+    /* Khi di chuột vào, mở rộng ra */
+    .trainer-icon:hover {
+    width: 200px; /* Mở rộng chiều rộng */
+    }
+
+    /* Tạo hình mũi tên */
+    .trainer-icon::after {
+        content: "";
+        font-size: 20px;
+        margin-left: 10px;
+    }
+    /* Khi phần tử bị ẩn */
+    .hidden {
+        transform: translateX(-100%); /* Ẩn ra ngoài bên trái */
+    }
+
+    /* Khi phần tử trượt vào */
+    .slide-in {
+        transform: translateX(0); /* Hiển thị từ vị trí ban đầu */
+    }
+
+    /* Khi phần tử trượt ra */
+    .slide-out {
+        transform: translateX(-100%); /* Trượt ra ngoài bên trái */
+    }
+    
+
+</style>
+<body>
+    <div id="header"></div>
+    <div class="trainer-icon" id="trainerIcon">
+        Huấn Luyện Viên
+    </div>
+    <main>
+        <section id="user-hierarchy">
+            <h2>CÁC HUẤN LUYỆN VIÊN</h2>
+            <div id="hierarchy-container" class="row"></div>
+        </section>
+        <section class="about" >
+            <h2>Giới thiệu về Aikido Aishinkan</h2>
+            <img src="../images/moriheiueshiba.jpg" class="founder">
+            <p>Aikido là một môn võ thuật hiện đại của Nhật Bản, được sáng lập bởi Morihei Ueshiba vào đầu thế kỷ 20. Tên "Aikido" có nghĩa là "con đường hòa hợp với năng lượng", trong đó "Ai" là hòa hợp, "Ki" là năng lượng hoặc sức mạnh của vũ trụ, và "Do" là con đường hoặc cách thức. Aikido tập trung vào việc sử dụng sức mạnh và động lực của đối thủ để kiểm soát và hóa giải các cuộc tấn công mà không cần sử dụng vũ lực quá mạnh.</p>
+            <p>Aishinkan là tên của một nhánh hoặc tổ chức trong Aikido. Cái tên "Aishinkan" có thể được phân tích thành các phần: "Ai" nghĩa là hòa hợp, "Shin" nghĩa là tâm hoặc tinh thần, "Kan" nghĩa là nơi, hoặc nhà. Như vậy, Aishinkan có thể được hiểu là "nơi của sự hòa hợp về tinh thần" hoặc "nhà của tinh thần hòa hợp". Các tổ chức hoặc trường phái Aikido với tên gọi này thường nhấn mạnh vào việc rèn luyện cả về kỹ thuật và phát triển tinh thần thông qua các giá trị hòa bình, lòng nhân ái và sự hòa hợp trong tập luyện.</p>
+            
+            <h3>Lịch sử môn võ</h3>
+            <p>Aikido là một môn võ thuật hiện đại của Nhật Bản, do Morihei Ueshiba sáng lập vào đầu thế kỷ 20. Ueshiba (1883-1969) đã nghiên cứu nhiều môn võ cổ truyền khác nhau như Jujitsu, Kenjutsu, và Daito-ryu Aiki-jujutsu, sau đó kết hợp những yếu tố tinh hoa của chúng với triết lý cá nhân về hòa bình và tâm linh để tạo ra Aikido.</p>
+            <h3>Quá trình phát triển</h3>
+            <ul>
+                <li><strong>Nền tảng võ thuật:</strong> Morihei Ueshiba học Daito-ryu Aiki-jujutsu từ Sokaku Takeda, một trong những võ sư hàng đầu Nhật Bản thời đó. Ông cũng rèn luyện kiếm đạo (Kenjutsu) và võ đạo Nhật Bản cổ truyền (Kobudo).</li>
+                <li><strong>Ảnh hưởng tâm linh:</strong> Ueshiba bị ảnh hưởng sâu sắc bởi tôn giáo Omotokyo, một tôn giáo Thần đạo mới có triết lý về hòa hợp và không bạo lực. Điều này giúp hình thành triết lý của Aikido: hòa hợp thay vì đối đầu.</li>
+                <li><strong>Hình thành Aikido:</strong> Trong những năm 1920-1930, Ueshiba bắt đầu phát triển phong cách võ thuật riêng, dựa trên nguyên tắc dùng sức mạnh của đối thủ để khắc chế, thay vì dùng lực để chống lại. Điều này khác biệt với nhiều môn võ khác và nhấn mạnh sự hòa hợp, kiểm soát thay vì tấn công trực diện.</li>
+                <li><strong>Phổ biến và phát triển:</strong> Sau Thế chiến II, Aikido dần trở nên pdhổ biến ở Nhật Bản và trên toàn thế giới. Năm 1948, tổ chức Aikikai được thành lập để truyền bá và quản lý Aikido toàn cầu. Hiện nay, Aikido có mặt tại hàng chục quốc gia và là một trong những môn võ có hệ thống đào tạo rộng lớn.</li>
+            </ul>
+
+            <h3>Triết lý và mục tiêu</h3>
+            <p>Triết lý và kỹ thuật: Aikido không tập trung vào việc đánh bại đối thủ mà là sử dụng kỹ thuật để bảo vệ cả bản thân và đối thủ, tránh gây thương tổn không cần thiết. Các kỹ thuật trong Aikido bao gồm các đòn ném (nage-waza), khóa khớp (katame-waza), và di chuyển để làm mất cân bằng đối thủ.</p>
+            <p>Môn võ này không có các cuộc thi đấu đối kháng, vì mục tiêu của Aikido là rèn luyện tinh thần và thể chất, không phải để chiến thắng người khác mà là chiến thắng chính mình.</p>
+        </section>
+    </main>
+    <script>
+        const trainerIcon = document.getElementById("trainerIcon");
+        const userHierarchy = document.getElementById("user-hierarchy");
+
+        trainerIcon.addEventListener("click", function() {
+            // Kiểm tra xem phần tử đang ẩn hay hiển thị
+            if (userHierarchy.style.transform === "translateX(0%)") {
+                // Nếu cây cấp bậc đang hiển thị, trượt ra ngoài
+                userHierarchy.style.transform = "translateX(-100%)";
+            } else {
+                // Nếu cây cấp bậc đang ẩn, trượt vào
+                userHierarchy.style.transform = "translateX(0%)";
+            }
+        });
+        
+        fetch('https://localhost:7296/api/Accounts')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // In ra dữ liệu để kiểm tra cấu trúc
+
+                // Kiểm tra cấu trúc dữ liệu và lấy mảng người dùng từ trường 'value'
+                if (data && data.value && Array.isArray(data.value)) {
+                    // Sắp xếp mảng người dùng theo cấp độ (level)
+                    data.value.sort((a, b) => a.level - b.level);
+                    renderUserHierarchy(data.value);
+                } else {
+                    console.error('Không tìm thấy mảng người dùng trong dữ liệu trả về', data);
+                }
+            })
+            .catch(error => {
+                console.error("Có lỗi xảy ra khi lấy dữ liệu người dùng:", error);
+            });
+
+        // Hàm lấy hình ảnh từ API dựa trên id người dùng
+        function getUserImage(userId) {
+            return fetch(`https://localhost:7296/api/Accounts/Image/${userId}`)
+                .then(response => response.blob())
+                .then(imageBlob => URL.createObjectURL(imageBlob))
+                .catch(error => {
+                    console.error("Có lỗi khi lấy hình ảnh:", error);
+                    return null; // Nếu không lấy được hình ảnh, trả về null
+                });
+        }
+
+        // Hàm render hiển thị cây cấp bậc người dùng
+        async function renderUserHierarchy(users) {
+            const userListContainer = document.getElementById('hierarchy-container');
+            userListContainer.innerHTML = '';  // Xóa nội dung cũ
+
+            // Nhóm người dùng theo cấp độ
+            const levelGroups = {};
+            users.forEach(user => {
+                if (!levelGroups[user.level]) {
+                    levelGroups[user.level] = [];
+                }
+                levelGroups[user.level].push(user);
+            });
+
+            // Tạo phần tử cho mỗi cấp độ
+            for (let level in levelGroups) {
+                const levelContainer = document.createElement('div');
+                levelContainer.classList.add('level', `level-${level}`);
+
+                for (let user of levelGroups[level]) {
+                    const userElement = document.createElement('div');
+                    userElement.classList.add('user-item');
+
+                    // Lấy hình ảnh người dùng từ API
+                    const userImageUrl = await getUserImage(user.id);
+
+                    // Thêm thông tin người dùng
+                    userElement.innerHTML = `
+                        <img src="${userImageUrl || '../images/default-avatar.png'}" alt="${user.name}" class="user-image">
+                        <h3>${user.name}</h3>
+                        <p>Đai: ${user.belt}</p>
+                    `;
+
+                    // Thêm vào danh sách người dùng
+                    levelContainer.appendChild(userElement);
+                }
+
+                // Thêm vào cây cấp bậc
+                userListContainer.appendChild(levelContainer);
+            }
+        }
+
+    </script>
+    <div id="footer"></div>
+</body>
+</html>

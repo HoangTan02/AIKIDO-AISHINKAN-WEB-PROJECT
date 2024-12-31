@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa tài khoản người dùng</title>
+    <style>
+        /* General styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: #000;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background video */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Main container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            z-index: 1;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5); /* Transparent black background */
+            border-radius: 10px;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        /* Input fields */
+        input[type="text"], input[type="email"], input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Button styles */
+        .button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Cancel button */
+        .cancel-btn {
+            margin-top: 10px;
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .modal-content {
+            background-color: #bb2626;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 6px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .button {
+            background-color: #f19090;
+            width: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background video -->
+    <video class="background-video" autoplay loop muted>
+        <source src="../videos/Body.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Main container -->
+    <div class="container">
+        <h1>Chỉnh sửa tài khoản người dùng</h1>
+
+        <!-- Form to edit user account -->
+        <form id="editUserForm">
+            <!-- Username field -->
+            <input type="text" id="username" name="username" placeholder="Tên người dùng" required>
+
+            <!-- Email field -->
+            <input type="email" id="email" name="email" placeholder="Email" required>
+
+            <!-- Password field (optional) -->
+            <input type="password" id="password" name="password" placeholder="Mật khẩu mới (nếu muốn thay đổi)">
+            
+            <!-- Confirm Password field (optional) -->
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu mới">
+
+            <!-- Role selection (preselected value) -->
+            <select id="role" name="role" required>
+                <option value="user">Người dùng</option>
+                <option value="admin">Host (Quản trị viên)</option>
+            </select>
+
+            <!-- Update button -->
+            <button type="submit" class="button">Cập nhật tài khoản</button>
+        </form>
+
+        <!-- Cancel button -->
+        <button class="cancel-btn" onclick="window.location.href='manage-users.html'">Hủy bỏ</button>
+    </div>
+
+    <!-- Modal for success -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <h2>Cập nhật thành công!</h2>
+            <p>Tài khoản đã được cập nhật thành công.</p>
+            <button class="button" onclick="redirectToManageUsers()">Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://localhost:7296/api/Accounts"; // Đảm bảo URL API chính xác
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id'); // Lấy ID người dùng từ URL
+
+        // Lấy thông tin người dùng từ API khi trang tải
+        async function getUserInfo() {
+            try {
+                const response = await fetch(`${API_URL}/${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('username').value = data.name;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('password').value = data.password;
+                    document.getElementById('role').value = data.role;
+                } else {
+                    alert("Không thể tải thông tin người dùng.");
+                }
+            } catch (error) {
+                alert("Lỗi khi kết nối tới API: " + error.message);
+            }
+        }
+
+        // Gửi yêu cầu PUT để cập nhật thông tin người dùng
+        async function updateUserInfo(event) {
+            event.preventDefault(); // Ngừng hành động mặc định của form
+
+            const updatedData = {
+                name: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                role: document.getElementById('role').value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedData),
+                });
+
+                if (response.ok) {
+                    document.getElementById('successModal').style.display = 'block';
+                } else {
+                    alert("Không thể cập nhật thông tin người dùng.");
+                }
+            } catch (error) {
+                alert("Lỗi khi kết nối tới API: " + error.message);
+            }
+        }
+
+        // Đóng modal và chuyển hướng
+        function redirectToManageUsers() {
+            document.getElementById('successModal').style.display = 'none';
+            window.location.href = 'manage-users.html';
+        }
+
+        // Thêm sự kiện khi gửi form
+        document.getElementById('editUserForm').addEventListener('submit', updateUserInfo);
+
+        // Lấy thông tin người dùng khi trang tải
+        document.addEventListener("DOMContentLoaded", function() {
+            getUserInfo();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <style>
+        /* CSS cho toàn bộ trang */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2C3E50; /* Màu nền tối sang trọng */
+        }
+
+        /* Container chính của login */
+        .login-container {
+            background-color: #34495E; /* Màu nền container đậm và lịch thiệp */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #ECF0F1;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Định dạng cho các form input */
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 1px solid #BDC3C7;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            background-color: #ECF0F1;
+            color: #2C3E50;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 1px solid #3498DB; /* Đổi màu viền khi focus */
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.6); /* Hiệu ứng sáng khi focus */
+        }
+
+        /* Định dạng cho nút đăng nhập */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980B9;
+        }
+
+        /* Định dạng cho các liên kết */
+        .link-container {
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #ECF0F1;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Định dạng cho các nhãn (labels) */
+        label {
+            display: block;
+            font-size: 1.1rem;
+            color: #ECF0F1;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        /* Định dạng cho các thông báo lỗi */
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Đăng Nhập</h2>
+        <form id="loginForm">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="email" required>
+            
+            <label for="password">Mật khẩu:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Đăng Nhập</button>
+        </form>
+        <div class="link-container">
+            <a href="index.html">Quay lại trang chủ</a>
+        </div>
+        <div class="error-message" id="error-message"></div>
+    </div>
+
+    <!-- CDN Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const API_URL = "https://localhost:7296/api/Accounts/Login"; // Đảm bảo URL API chính xác
+
+        async function login(email, password) {
+            try {
+                // Gửi yêu cầu POST đến API
+                const response = await axios.post(API_URL, {
+                    email: email,
+                    password: password
+                });
+
+                if (response.status === 200) {
+                    const userRole = response.data; // Dữ liệu trả về chỉ chứa role
+
+                    // Kiểm tra role và chuyển hướng
+                    if (userRole === "Admin") {
+                        window.location.href = "Admin.html"; // Trang dành cho Admin
+                    } else if (userRole === "User") {
+                        window.location.href = "User.html"; // Trang dành cho User
+                    }
+                } else {
+                    showError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+                }
+            } catch (error) {
+                showError("Lỗi khi kết nối tới API: " + (error.response?.data || error.message));
+            }
+        }
+
+        function showError(message) {
+            const errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = message;
+        }
+
+        document.querySelector("#loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const email = document.querySelector("#username").value;
+            const password = document.querySelector("#password").value;
+
+            login(email, password); // Gọi hàm login khi người dùng nhấn submit
+        });
+    </script>
+</body>
+</html>

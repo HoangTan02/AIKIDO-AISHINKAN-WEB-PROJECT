@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài viết</title>
+    <style>
+        /* General styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: #000;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background video */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Main container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 1000px;
+            width: 100%;
+            padding: 30px;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 24px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        /* Button styles */
+        .button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Table for posts */
+        .posts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .posts-table th, .posts-table td {
+            padding: 12px;
+            border: 1px solid #fff;
+            text-align: left;
+        }
+
+        .posts-table th {
+            background-color: #34495e;
+        }
+
+        .posts-table tr:nth-child(even) {
+            background-color: #2c3e50;
+        }
+
+        .posts-table tr:hover {
+            background-color: #2980b9;
+        }
+
+        /* Back button */
+        .back-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: #e67e22;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background video -->
+    <video class="background-video" autoplay loop muted>
+        <source src="../videos/Body.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Main container -->
+    <div class="container">
+        <h1>Quản lý bài viết</h1>
+
+        <!-- Add new post -->
+        <div class="section">
+            <p class="section-title">Thêm bài viết mới</p>
+            <a href="create-post.html">
+                <button class="button">Đăng bài viết mới</button>
+            </a>
+        </div>
+
+        <!-- List of posts -->
+        <div class="section">
+            <p class="section-title">Danh sách bài viết</p>
+            <table class="posts-table">
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Ngày đăng</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example post row -->
+                    <tr>
+                        <td>Bài viết 1</td>
+                        <td>01/01/2024</td>
+                        <td>
+                            <a href="edit-post.html"><button class="button">Chỉnh sửa</button></a>
+                            <a href="delete-post.html"><button class="button" style="background-color: #e74c3c;">Xóa</button></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bài viết 2</td>
+                        <td>02/01/2024</td>
+                        <td>
+                            <a href="edit-post.html"><button class="button">Chỉnh sửa</button></a>
+                            <a href="delete-post.html"><button class="button" style="background-color: #e74c3c;">Xóa</button></a>
+                        </td>
+                    </tr>
+                    <!-- More rows can go here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Back button -->
+        <button class="back-btn" onclick="window.location.href='Admin.html'">Quay lại trang quản lý Admin</button>
+    </div>
+
+</body>
+</html>
