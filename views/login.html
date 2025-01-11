@@ -109,8 +109,8 @@
     <div class="login-container">
         <h2>Đăng Nhập</h2>
         <form id="loginForm">
-            <label for="username">Email:</label>
-            <input type="text" id="username" name="email" required>
+            <label for="username">Số điện thoại:</label>
+            <input type="text" id="username" name="phoneNumber" required>
             
             <label for="password">Mật khẩu:</label>
             <input type="password" id="password" name="password" required>
@@ -129,11 +129,11 @@
     <script>
         const API_URL = "https://localhost:7296/api/Accounts/Login"; // Đảm bảo URL API chính xác
 
-        async function login(email, password) {
+        async function login(phoneNumber, password) {
             try {
                 // Gửi yêu cầu POST đến API
                 const response = await axios.post(API_URL, {
-                    email: email,
+                    phoneNumber: phoneNumber,
                     password: password
                 });
 
@@ -161,10 +161,10 @@
 
         document.querySelector("#loginForm").addEventListener("submit", function (event) {
             event.preventDefault();
-            const email = document.querySelector("#username").value;
+            const phoneNumber = document.querySelector("#username").value;
             const password = document.querySelector("#password").value;
 
-            login(email, password); // Gọi hàm login khi người dùng nhấn submit
+            login(phoneNumber, password); // Gọi hàm login khi người dùng nhấn submit
         });
     </script>
 </body>

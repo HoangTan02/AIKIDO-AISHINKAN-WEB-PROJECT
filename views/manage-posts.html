@@ -11,21 +11,13 @@
             margin: 0;
             padding: 0;
             color: #fff;
-            background: #000;
+            background: #34495E;
             height: 100vh;
             overflow: hidden;
             position: relative;
-        }
-
-        /* Background video */
-        .background-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Main container */
@@ -35,16 +27,23 @@
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 1000px;
-            width: 100%;
+            width: 90%; /* Giới hạn chiều rộng container */
             padding: 30px;
             z-index: 1;
             text-align: center;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Title */
         h1 {
             font-size: 36px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            color: #ffffff;
         }
 
         /* Section titles */
@@ -52,6 +51,7 @@
             font-size: 24px;
             margin-top: 30px;
             font-weight: bold;
+            color: #ffffff;
         }
 
         /* Button styles */
@@ -73,19 +73,25 @@
 
         /* Table for posts */
         .posts-table {
-            width: 100%;
+            width: 100%; /* Chiếm hết bề ngang container */
             border-collapse: collapse;
             margin-top: 30px;
+            max-height: 400px; /* Giới hạn chiều cao của bảng */
+            overflow-y: auto; /* Thêm thanh cuộn dọc khi bảng quá dài */
+            display: block;
+            margin-bottom: 20px;
         }
+
 
         .posts-table th, .posts-table td {
             padding: 12px;
             border: 1px solid #fff;
-            text-align: left;
+            text-align: center;
         }
 
         .posts-table th {
             background-color: #34495e;
+            color: #fff;
         }
 
         .posts-table tr:nth-child(even) {
@@ -112,20 +118,12 @@
         .back-btn:hover {
             background-color: #e67e22;
         }
-
     </style>
 </head>
 <body>
-
-    <!-- Background video -->
-    <video class="background-video" autoplay loop muted>
-        <source src="../videos/Body.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
     <!-- Main container -->
     <div class="container">
-        <h1>Quản lý bài viết</h1>
+        <h1>QUẢN LÝ BÀI VIẾT</h1>
 
         <!-- Add new post -->
         <div class="section">
@@ -141,30 +139,14 @@
             <table class="posts-table">
                 <thead>
                     <tr>
-                        <th>Tiêu đề</th>
                         <th>Ngày đăng</th>
+                        <th>Tiêu đề</th>
+                        <th>Người đăng</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Example post row -->
-                    <tr>
-                        <td>Bài viết 1</td>
-                        <td>01/01/2024</td>
-                        <td>
-                            <a href="edit-post.html"><button class="button">Chỉnh sửa</button></a>
-                            <a href="delete-post.html"><button class="button" style="background-color: #e74c3c;">Xóa</button></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bài viết 2</td>
-                        <td>02/01/2024</td>
-                        <td>
-                            <a href="edit-post.html"><button class="button">Chỉnh sửa</button></a>
-                            <a href="delete-post.html"><button class="button" style="background-color: #e74c3c;">Xóa</button></a>
-                        </td>
-                    </tr>
-                    <!-- More rows can go here -->
+                <tbody id="posts-table-body">
+                    <!-- Rows will be dynamically generated here -->
                 </tbody>
             </table>
         </div>
@@ -173,5 +155,69 @@
         <button class="back-btn" onclick="window.location.href='Admin.html'">Quay lại trang quản lý Admin</button>
     </div>
 
+    <script>
+        async function fetchPosts() {
+            try {
+                const response = await fetch('https://localhost:7296/api/Posts');
+                const posts = await response.json();
+                
+                const tableBody = document.getElementById('posts-table-body');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                posts.forEach(post => {
+                    const row = document.createElement('tr');
+
+                    // Date column
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = new Date(post.createdAt).toLocaleDateString('vi-VN');
+                    row.appendChild(dateCell);
+
+                    // Title column
+                    const titleCell = document.createElement('td');
+                    titleCell.textContent = post.title || 'Không có tiêu đề';
+                    row.appendChild(titleCell);
+
+                    // Author column
+                    const authorCell = document.createElement('td');
+                    authorCell.textContent = post.writer || 'Không có người đăng';
+                    row.appendChild(authorCell);
+
+                    // Actions column
+                    const actionCell = document.createElement('td');
+                    actionCell.innerHTML = ` 
+                        <a href="edit-post.html?id=${post.id}"><button class="button">Chỉnh sửa</button></a>
+                        <button class="button" style="background-color: #e74c3c;" onclick="deletePost(${post.id})">Xóa</button>
+                    `;
+                    row.appendChild(actionCell);
+
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Lỗi khi tải bài viết:', error);
+            }
+        }
+
+        async function deletePost(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa bài viết này?')) return;
+
+            try {
+                const response = await fetch(`https://localhost:7296/api/Posts/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Xóa bài viết thành công!');
+                    fetchPosts(); // Reload posts
+                } else {
+                    alert('Lỗi khi xóa bài viết!');
+                }
+            } catch (error) {
+                console.error('Lỗi khi xóa bài viết:', error);
+            }
+        }
+
+        // Load posts on page load
+        fetchPosts();
+    </script>
 </body>
 </html>

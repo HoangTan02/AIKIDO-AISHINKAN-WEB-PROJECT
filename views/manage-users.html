@@ -223,7 +223,7 @@
                     <tr>
                         <th>Hình ảnh</th>
                         <th>Tên người dùng</th>
-                        <th>Email</th>
+                        <th>Số điện thoại</th>
                         <th>Mật khẩu</th>
                         <th>Role</th>
                         <th>Đai</th>
@@ -274,8 +274,8 @@
                             <input type="text" id="name-input-${user.id}" style="display:none;" value="${user.name}">
                         </td>
                         <td>
-                            <span id="email-text-${user.id}">${user.email}</span>
-                            <input type="email" id="email-input-${user.id}" style="display:none;" value="${user.email}">
+                            <span id="phoneNumber-text-${user.id}">${user.phoneNumber}</span>
+                            <input type="phoneNumber" id="phoneNumber-input-${user.id}" style="display:none;" value="${user.phoneNumber}">
                         </td>
                         <td>
                             <span id="password-text-${user.id}">******</span>
@@ -306,7 +306,7 @@
                     tableBody.appendChild(row);
                 } else {
                     existingRow.querySelector(`#name-text-${user.id}`).textContent = user.name;
-                    existingRow.querySelector(`#email-text-${user.id}`).textContent = user.email;
+                    existingRow.querySelector(`#phoneNumber-text-${user.id}`).textContent = user.phoneNumber;
                     existingRow.querySelector(`#role-text-${user.id}`).textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
                     existingRow.querySelector(`#belt-text-${user.id}`).textContent = user.belt;
                     existingRow.querySelector(`#level-text-${user.id}`).textContent = user.level;
@@ -377,7 +377,7 @@
 
         async function updateUser(userId) {
             const name = document.getElementById(`name-input-${userId}`).value;
-            const email = document.getElementById(`email-input-${userId}`).value;
+            const phoneNumber = document.getElementById(`phoneNumber-input-${userId}`).value;
             const password = document.getElementById(`password-input-${userId}`).value;
             const role = document.getElementById(`role-select-${userId}`).value;
             const belt = document.getElementById(`belt-input-${userId}`).value;
@@ -391,7 +391,7 @@
                     },
                     body: JSON.stringify({
                         name,
-                        email,
+                        phoneNumber,
                         password,
                         role,
                         belt,
@@ -452,8 +452,8 @@
             document.getElementById(`name-text-${userId}`).style.display = isEditing ? 'none' : '';
             document.getElementById(`name-input-${userId}`).style.display = isEditing ? '' : 'none';
 
-            document.getElementById(`email-text-${userId}`).style.display = isEditing ? 'none' : '';
-            document.getElementById(`email-input-${userId}`).style.display = isEditing ? '' : 'none';
+            document.getElementById(`phoneNumber-text-${userId}`).style.display = isEditing ? 'none' : '';
+            document.getElementById(`phoneNumber-input-${userId}`).style.display = isEditing ? '' : 'none';
 
             document.getElementById(`password-text-${userId}`).style.display = isEditing ? 'none' : '';
             document.getElementById(`password-input-${userId}`).style.display = isEditing ? '' : 'none';
