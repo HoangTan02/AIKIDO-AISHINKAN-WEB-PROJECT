@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vni">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKIDO AISHINKAN VIET NAM - Chi tiết bài viết</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="../config/loadHeaderFooter.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
+    <style>
+        /* Tổng thể trang */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;  /* Nền trang nhẹ nhàng */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+
+        /* Bố cục chính trong nội dung bài viết */
+        #postContent {
+            max-width: 800px;  /* Giới hạn chiều rộng của bài viết */
+            margin: 0 auto; /* Căn giữa nội dung */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 120px;  /* Tạo khoảng cách với header, điều chỉnh nếu cần */
+        }
+
+        /* Tiêu đề bài viết */
+        h1#postTitle {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;  /* Căn giữa tiêu đề */
+        }
+
+        /* Nội dung mỗi phần của bài viết */
+        .content-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;  /* Đường viền dưới mỗi phần */
+        }
+
+        /* Loại nội dung Text */
+        .content-item p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;  /* Căn đều nội dung văn bản */
+            margin-bottom: 15px;  /* Khoảng cách dưới văn bản */
+        }
+
+        /* Loại hình ảnh */
+        .content-item img {
+            width: 100%;  /* Đảm bảo ảnh đầy đủ chiều rộng */
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;  /* Khoảng cách trên hình ảnh */
+            margin-bottom: 20px;  /* Khoảng cách dưới hình ảnh */
+        }
+
+        /* Loại video */
+        .content-item video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;  /* Khoảng cách trên video */
+            margin-bottom: 20px;  /* Khoảng cách dưới video */
+        }
+
+        /* Xử lý các khoảng cách */
+        .content-item:last-child {
+            border-bottom: none;  /* Loại bỏ đường viền dưới phần tử cuối */
+        }
+
+        /* Cải thiện giao diện di động */
+        @media (max-width: 768px) {
+            #postContent {
+                padding: 15px;
+                padding-top: 80px;  /* Điều chỉnh khoảng cách cho thiết bị di động */
+            }
+
+            .content-item {
+                padding: 15px;
+            }
+
+            h1#postTitle {
+                font-size: 28px;  /* Giảm kích thước tiêu đề trên thiết bị di động */
+            }
+
+            .content-item p {
+                font-size: 16px;  /* Giảm kích thước chữ cho phần văn bản */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <main>
+        <div class="container">
+            <h1 id="postTitle">Bài viết chi tiết</h1>
+            <div id="postContent">
+                <!-- Nội dung bài viết sẽ được chèn vào đây bằng JavaScript -->
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const postTitleElement = document.getElementById('postTitle');
+            const postId = new URLSearchParams(window.location.search).get('id');
+
+            if (!postId) {
+                postTitleElement.textContent = 'Bài viết không tồn tại.';
+                return;
+            }
+
+            // Lấy thông tin tiêu đề bài viết từ API
+            fetch(`https://localhost:7296/api/Posts/${postId}`)
+                .then(response => response.json())
+                .then(post => {
+                    // Kiểm tra nếu bài viết và tiêu đề có trong dữ liệu trả về
+                    if (post && post.title) {
+                        postTitleElement.textContent = post.title;  // Gán tiêu đề vào phần tử
+                    } else {
+                        postTitleElement.textContent = 'Tiêu đề không có sẵn';
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải tiêu đề bài viết:', error);
+                    postTitleElement.textContent = 'Lỗi khi tải tiêu đề';
+                });
+
+            // Lấy dữ liệu từ API cho bài viết này và các contents của nó (Text)
+            fetch(`https://localhost:7296/api/Contents/Post/${postId}`)
+                .then(response => response.json())
+                .then(contents => {
+                    if (contents.length === 0) {
+                        postContent.innerHTML = '<p>Không có nội dung cho bài viết này.</p>';
+                    } else {
+                        contents.forEach(content => {
+                            // Kiểm tra nếu order khác 0 mới hiển thị
+                            if (content.order !== 0) {
+                                const contentElement = document.createElement('div');
+                                contentElement.classList.add('content-item');
+                                
+                                // Xử lý nội dung Text
+                                if (content.type === 'Text') {
+                                    contentElement.innerHTML = `<p>${content.content}</p>`; // Đảm bảo sử dụng content.content
+                                }
+
+                                // Xử lý nội dung Image
+                                if (content.type === 'Image') {
+                                    contentElement.innerHTML = `<img src="https://localhost:7296/api/Contents/GetImage/${content.id}" alt="Hình ảnh" class="img-fluid">`;
+                                }
+
+                                // Xử lý nội dung Video
+                                if (content.type === 'Video') {
+                                    contentElement.innerHTML = ` 
+                                        <video controls class="img-fluid">
+                                            <source src="https://localhost:7296/api/Contents/Play/${content.content}" type="video/mp4">
+                                            Trình duyệt của bạn không hỗ trợ video.
+                                        </video>
+                                    `;
+                                }
+
+                                // Chèn nội dung vào trang
+                                postContent.appendChild(contentElement);
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải nội dung bài viết:', error);
+                    postContent.innerHTML = '<p>Không thể tải nội dung. Vui lòng thử lại sau.</p>';
+                });
+        });
+    </script>
+    <div id="footer"></div>
+</body>
+</html>
