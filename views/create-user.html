@@ -37,7 +37,7 @@
         }
 
         /* Định dạng cho các form input */
-        input[type="text"], input[type="email"], input[type="password"] {
+        input[type="text"], input[type="phonenumber"], input[type="password"] {
             width: 100%;
             padding: 14px;
             margin: 12px 0;
@@ -98,8 +98,8 @@
     <div class="container">
         <h1><b>TẠO TÀI KHOẢN</b></h1>
         <form id="create-user-form">
-            <input type="text" id="name" placeholder="Họ và Tên" required>
-            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="name" placeholder="Vai trò + Tên" required>
+            <input type="phonenumber" id="phoneNumber" placeholder="Số điện thoại" required>
             <input type="password" id="password" placeholder="Mật khẩu" required>
             <button type="submit">Tạo tài khoản</button>
         </form>
@@ -115,7 +115,7 @@
             event.preventDefault();
 
             const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
             const password = document.getElementById("password").value;
 
             // Reset error message
@@ -123,7 +123,7 @@
 
             const accountData = {
                 name: name,
-                email: email,
+                phoneNumber: phoneNumber,
                 password: password
             };
 
@@ -138,7 +138,7 @@
 
                 if (response.ok) {
                     alert("Tạo tài khoản thành công.");
-                    window.location.href = "Admin.html";  // Chuyển hướng về trang Admin.html
+                    window.location.href = "manage-users.html";  // Chuyển hướng về trang quản lý người dùng
                 } else if (response.status === 409) {
                     const errorData = await response.text();
                     document.getElementById("error-message").innerText = errorData;
@@ -151,6 +151,13 @@
         });
 
     </script>
+    
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>
+
+    
 
 </body>
 </html>

@@ -100,6 +100,17 @@
         .popup-content button:hover {
             background-color: #0056b3;
         }
+        .back-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -113,6 +124,7 @@
             <input type="text" id="writer" name="writer" placeholder="Nhập tên tác giả" required>
             
             <input type="submit" value="Tạo bài viết">
+            <button class="back-btn" onclick="window.location.href='manage-posts.html'">Quay lại trang quản lý bài viết</button>
         </form>
     </div>
 
@@ -166,6 +178,11 @@
         });
 
         closePopupButton.addEventListener("click", closePopup); // Đóng popup
+    </script>
+
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
     </script>
 </body>
 </html>

@@ -140,11 +140,15 @@
                 if (response.status === 200) {
                     const userRole = response.data; // Dữ liệu trả về chỉ chứa role
 
-                    // Kiểm tra role và chuyển hướng
+                    // Lưu thông tin vào localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userRole', userRole);
+
+                    // Chuyển hướng dựa trên vai trò
                     if (userRole === "Admin") {
-                        window.location.href = "Admin.html"; // Trang dành cho Admin
+                        window.location.href = "Admin.html";
                     } else if (userRole === "User") {
-                        window.location.href = "User.html"; // Trang dành cho User
+                        window.location.href = "User.html";
                     }
                 } else {
                     showError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");

@@ -29,14 +29,17 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding-top: 120px;  /* Tạo khoảng cách với header, điều chỉnh nếu cần */
+            padding-top: 200px;  /* Giảm khoảng cách với header */
+            position: relative; /* Đảm bảo không bị che khuất */
         }
+
 
         /* Tiêu đề bài viết */
         h1#postTitle {
             font-size: 36px;
             color: #333;
-            margin-bottom: 20px;
+            margin-top: 50px;
+            margin-bottom: 40px;
             text-align: center;  /* Căn giữa tiêu đề */
         }
 
@@ -58,21 +61,24 @@
 
         /* Loại hình ảnh */
         .content-item img {
-            width: 100%;  /* Đảm bảo ảnh đầy đủ chiều rộng */
-            height: auto;
+            max-width: 90%;  /* Giới hạn chiều rộng của ảnh */
+            height: 300px;  /* Đặt chiều cao cố định cho ảnh */
+            object-fit: cover;  /* Đảm bảo ảnh không bị méo, cắt bớt nếu cần */
             border-radius: 8px;
-            margin-top: 15px;  /* Khoảng cách trên hình ảnh */
-            margin-bottom: 20px;  /* Khoảng cách dưới hình ảnh */
+            margin: 15px auto;  /* Căn giữa ảnh và thêm khoảng cách trên, dưới */
+            display: block;  /* Đảm bảo căn giữa */
         }
+
 
         /* Loại video */
         .content-item video {
-            width: 100%;
+            max-width: 90%;  /* Tăng kích thước video lên 90% */
             height: auto;
             border-radius: 8px;
-            margin-top: 15px;  /* Khoảng cách trên video */
-            margin-bottom: 20px;  /* Khoảng cách dưới video */
+            margin: 15px auto;  /* Căn giữa video và thêm khoảng cách trên, dưới */
+            display: block;  /* Đảm bảo căn giữa */
         }
+
 
         /* Xử lý các khoảng cách */
         .content-item:last-child {
@@ -83,7 +89,7 @@
         @media (max-width: 768px) {
             #postContent {
                 padding: 15px;
-                padding-top: 80px;  /* Điều chỉnh khoảng cách cho thiết bị di động */
+                padding-top: 200px;  /* Điều chỉnh khoảng cách cho thiết bị di động */
             }
 
             .content-item {
@@ -105,8 +111,8 @@
     <div id="header"></div>
     <main>
         <div class="container">
-            <h1 id="postTitle">Bài viết chi tiết</h1>
             <div id="postContent">
+                <h1 id="postTitle">Bài viết chi tiết</h1>
                 <!-- Nội dung bài viết sẽ được chèn vào đây bằng JavaScript -->
             </div>
         </div>
@@ -125,7 +131,6 @@
             fetch(`https://localhost:7296/api/Posts/${postId}`)
                 .then(response => response.json())
                 .then(post => {
-                    // Kiểm tra nếu bài viết và tiêu đề có trong dữ liệu trả về
                     if (post && post.title) {
                         postTitleElement.textContent = post.title;  // Gán tiêu đề vào phần tử
                     } else {
@@ -145,26 +150,26 @@
                         postContent.innerHTML = '<p>Không có nội dung cho bài viết này.</p>';
                     } else {
                         contents.forEach(content => {
-                            // Kiểm tra nếu order khác 0 mới hiển thị
                             if (content.order !== 0) {
                                 const contentElement = document.createElement('div');
                                 contentElement.classList.add('content-item');
-                                
-                                // Xử lý nội dung Text
+
+                                // Xử lý nội dung Text với định dạng markdown-like syntax
                                 if (content.type === 'Text') {
-                                    contentElement.innerHTML = `<p>${content.content}</p>`; // Đảm bảo sử dụng content.content
+                                    const formattedContent = formatTextContent(content.content);
+                                    contentElement.innerHTML = `<p>${formattedContent}</p>`;
                                 }
 
                                 // Xử lý nội dung Image
                                 if (content.type === 'Image') {
-                                    contentElement.innerHTML = `<img src="https://localhost:7296/api/Contents/GetImage/${content.id}" alt="Hình ảnh" class="img-fluid">`;
+                                    contentElement.innerHTML = `<img src="https://localhost:7296/api/Contents/GetImage/${content.id}" alt="Hình ảnh" class="img-fluid" loading="lazy">`;
                                 }
 
                                 // Xử lý nội dung Video
                                 if (content.type === 'Video') {
                                     contentElement.innerHTML = ` 
                                         <video controls class="img-fluid">
-                                            <source src="https://localhost:7296/api/Contents/Play/${content.content}" type="video/mp4">
+                                            <source src="https://localhost:7296/api/Contents/Play/${content.content}" type="video/mp4" loading="lazy">
                                             Trình duyệt của bạn không hỗ trợ video.
                                         </video>
                                     `;
@@ -181,6 +186,41 @@
                     postContent.innerHTML = '<p>Không thể tải nội dung. Vui lòng thử lại sau.</p>';
                 });
         });
+
+        // Hàm để chuyển đổi markdown-like syntax thành HTML
+        function formatTextContent(content) {
+            // Chuyển các đoạn văn bản có dấu **...** thành văn bản in đậm
+            // Ví dụ: **Đây là đoạn văn bản in đậm** sẽ chuyển thành <strong>Đây là đoạn văn bản in đậm</strong>
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Chuyển các đoạn văn bản có dấu *...* thành văn bản in nghiêng
+            // Ví dụ: *Đây là đoạn văn bản in nghiêng* sẽ chuyển thành <em>Đây là đoạn văn bản in nghiêng</em>
+            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Chuyển các dòng có dấu - ở đầu thành danh sách không thứ tự (unordered list)
+            // Ví dụ: 
+            // - Mục 1
+            // - Mục 2
+            // Sẽ chuyển thành <ul><li>Mục 1</li><li>Mục 2</li></ul>
+            content = content.replace(/^\s*-\s+/gm, '<ul><li>').replace(/\n/gm, '</li></ul>');
+            
+            // Chuyển các dòng bắt đầu bằng # thành tiêu đề cấp 1 (h1)
+            // Ví dụ: # Tiêu đề cấp 1 sẽ chuyển thành <h1>Tiêu đề cấp 1</h1>
+            content = content.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+            
+            // Chuyển các dòng bắt đầu bằng ## thành tiêu đề cấp 2 (h2)
+            // Ví dụ: ## Tiêu đề cấp 2 sẽ chuyển thành <h2>Tiêu đề cấp 2</h2>
+            content = content.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+            
+            // Chia nội dung thành các đoạn văn riêng biệt và bọc mỗi đoạn trong thẻ <p>
+            // Ví dụ: "Đoạn văn 1\nĐoạn văn 2" sẽ chuyển thành <p>Đoạn văn 1</p><p>Đoạn văn 2</p>
+            const paragraphs = content.split(/\n+/);  // Chia theo dấu xuống dòng (\n)
+            content = paragraphs.map(paragraph => `<p>${paragraph.trim()}</p>`).join('');  // Dựng lại nội dung với thẻ <p>
+
+            // Trả về nội dung đã được chuyển đổi sang HTML
+            return content;
+    }
+
     </script>
     <div id="footer"></div>
 </body>

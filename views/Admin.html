@@ -102,7 +102,21 @@
 
         <!-- Back button -->
         <button class="back-btn" onclick="window.location.href='login.html'">Quay lại đăng nhập</button>
+        
     </div>
+    <script>
+        function logout() {
+            localStorage.clear(); // Xóa tất cả dữ liệu trong localStorage
+            window.location.href = 'Login.html'; // Chuyển hướng về trang login
+        }
+    </script>
+    
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>
+
+
 
 </body>
 </html>

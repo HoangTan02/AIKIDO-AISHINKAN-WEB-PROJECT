@@ -1,267 +1,581 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/logo.jpg" type="image/x-icon">
-    <title>Chỉnh sửa bài viết</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            background: #34495E;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="../images/logo.jpg" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chỉnh sửa bài viết</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #fff;
+                background: #34495E;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
 
-        .container {
-            padding: 30px;
-            max-width: 900px;
-            width: 100%;
-            background-color: #2c3e50;
-            border-radius: 8px;
-            text-align: center;
-            overflow-y: auto;
-            height: 80vh;
-        }
+            .container {
+                padding: 30px;
+                max-width: 900px;
+                width: 100%;
+                background-color: #2c3e50;
+                border-radius: 8px;
+                text-align: center;
+                overflow-y: auto;
+                height: 80vh;
+            }
 
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
+            h1 {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
 
-        .content-group {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
+            .content-group {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-bottom: 20px;
+                width: 100%;
+            }
 
-        .content-item {
-            padding: 15px;
-            background-color: #34495e;
-            border-radius: 6px;
-            text-align: left;
-            width: calc(33.33% - 20px);
-            box-sizing: border-box;
-            position: relative;
-        }
+            .content-item {
+                padding: 15px;
+                background-color: #34495e;
+                border-radius: 6px;
+                text-align: left;
+                width: calc(33.33% - 20px);
+                box-sizing: border-box;
+                position: relative;
+            }
 
-        .content-item p {
-            margin: 0;
-            font-size: 18px;
-            color: #fff;
-        }
+            .content-item p {
+                margin: 0;
+                font-size: 18px;
+                color: #fff;
+            }
 
-        .content-item img, .content-item video {
-            max-width: 100%;
-            height: 200px; /* Cố định chiều cao */
-            object-fit: cover; /* Đảm bảo hình ảnh/video không bị méo */
-            border-radius: 6px;
-            display: block;
-            margin-top: 10px;
-        }
-        .content-item video {
-            object-fit: cover; /* Cũng đảm bảo video không bị méo */
-        }
+            .content-item img, .content-item video {
+                max-width: 100%;
+                height: 200px; /* Cố định chiều cao */
+                object-fit: cover; /* Đảm bảo hình ảnh/video không bị méo */
+                border-radius: 6px;
+                display: block;
+                margin-top: 10px;
+            }
+            .content-item video {
+                object-fit: cover; /* Cũng đảm bảo video không bị méo */
+            }
 
-        .content-item button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+            .content-item button {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
 
-        .content-item button:hover {
-            background-color: #2980b9;
-        }
+            .content-item button:hover {
+                background-color: #2980b9;
+            }
 
-        .edit-btn {
-            background-color: #2ecc71;
-            margin-right: 10px;
-        }
+            .edit-btn {
+                background-color: #2ecc71;
+                margin-right: 10px;
+            }
 
-        .order-btn {
-            background-color: #f39c12;
-        }
+            .order-btn {
+                background-color: #f39c12;
+            }
 
-        .order-number {
-            background-color: #e74c3c;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: -10px;
-            margin-left: -10px;
-            z-index: 10;
-            display: inline-block;
-        }
+            .order-number {
+                background-color: #e74c3c;
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 50%;
+                font-size: 16px;
+                font-weight: bold;
+                margin-top: -10px;
+                margin-left: -10px;
+                z-index: 10;
+                display: inline-block;
+            }
 
-        .back-btn {
-            padding: 12px 25px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 16px;
-            margin-top: 20px;
-        }
+            .back-btn {
+                padding: 12px 25px;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                border-radius: 6px;
+                font-size: 16px;
+                margin-top: 20px;
+            }
 
-        .back-btn:hover {
-            background-color: #2980b9;
-        }
+            .back-btn:hover {
+                background-color: #2980b9;
+            }
 
-        .delete-btn {
-            background-color: #e74c3c;
-            color: #fff;
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+            .delete-btn {
+                background-color: #e74c3c;
+                color: #fff;
+                margin-top: 10px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
 
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
+            .delete-btn:hover {
+                background-color: #c0392b;
+            }
 
-        .content-btn {
-            padding: 10px 20px;
-            background-color: #2ecc71;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            margin: 5px;
-            transition: background-color 0.3s;
-        }
+            .content-btn {
+                padding: 10px 20px;
+                background-color: #2ecc71;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+                margin: 5px;
+                transition: background-color 0.3s;
+            }
 
-        .content-btn:hover {
-            background-color: #27ae60;
-        }
+            .content-btn:hover {
+                background-color: #27ae60;
+            }
 
-    </style>
-</head>
-<body>
+            textarea {
+                width: 100%;
+                height: 120px;
+                padding: 10px;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                color: #34495e;
+                background: #ecf0f1;
+                border: 1px solid #bdc3c7;
+                border-radius: 6px;
+                box-sizing: border-box;
+                resize: none;
+                outline: none;
+                transition: border-color 0.3s;
+            }
 
-<div class="container">
-    <h1>Chỉnh sửa nội dung</h1>
-    <div class="button-group">
-        <button class="content-btn" onclick="createText()">Tạo Text</button>
-        <button class="content-btn" onclick="createImage()">Tạo Image</button>
-        <button class="content-btn" onclick="createVideo()">Tạo Video</button>
+            textarea:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            }
+
+            /* Modal nền tối */
+            .modal {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+            }
+
+            /* Nội dung modal */
+            .modal-content {
+                background-color: rgb(75, 75, 75);
+                padding: 20px;
+                border-radius: 8px;
+                width: 60%;
+                max-width: 600px;
+            }
+
+            /* Nút đóng */
+            .close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 30px;
+                cursor: pointer;
+            }
+
+            /* Nút Lưu */
+            #save-button {
+                margin-top: 15px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #save-button:hover {
+                background-color: #0056b3;
+            }
+            .back-btn {
+                margin-top: 20px;
+                padding: 12px 25px;
+                background-color: #f39c12;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                border-radius: 6px;
+                font-size: 16px;
+                width: 100%;
+            }
+
+            /* Các kiểu cho thiết bị di động (dưới 768px) */
+            @media only screen and (max-width: 768px) {
+                body {
+                    font-size: 14px;
+                }
+
+                .container {
+                    width: 90%;
+                }
+
+                h1 {
+                    font-size: 28px;
+                }
+
+                .content-item {
+                    width: calc(50% - 20px); /* Điều chỉnh kích thước item cho phù hợp với màn hình nhỏ hơn */
+                }
+
+                .content-item img, .content-item video {
+                    height: 150px; /* Giảm chiều cao hình ảnh/video */
+                }
+
+                .content-btn {
+                    padding: 8px 15px; /* Điều chỉnh kích thước nút */
+                }
+
+                .back-btn {
+                    width: 100%;
+                    font-size: 14px;
+                }
+            }
+
+            /* Các kiểu cho thiết bị di động rất nhỏ (dưới 480px) */
+            @media only screen and (max-width: 480px) {
+                body {
+                    font-size: 12px;
+                }
+
+                .container {
+                    width: 100%;
+                    padding: 20px;
+                }
+
+                .content-item {
+                    width: 100%; /* Đảm bảo các item chiếm toàn bộ chiều rộng */
+                }
+
+                .content-item img, .content-item video {
+                    height: 120px; /* Giảm chiều cao hình ảnh/video hơn nữa */
+                }
+
+                h1 {
+                    font-size: 24px; /* Giảm kích thước tiêu đề */
+                }
+
+                .content-btn {
+                    padding: 8px 12px;
+                }
+
+                .back-btn {
+                    width: 100%;
+                    font-size: 14px;
+                }
+            }
+
+            
+        </style>
+    </head>
+    <body>
+
+    <div class="container">
+        <h1>Chỉnh sửa nội dung</h1>
+        <div class="button-group">
+            <button class="content-btn" onclick="createText()">Tạo Text</button>
+            <button class="content-btn" onclick="createImage()">Tạo Image</button>
+            <button class="content-btn" onclick="createVideo()">Tạo Video</button>
+        </div>
+        <div id="content-list">
+            <!-- Nội dung bài viết sẽ được hiển thị ở đây -->
+        </div>
+        <button class="back-btn" onclick="window.location.href='manage-posts.html'">Quay lại trang quản lý bài viết</button>
     </div>
-    <div id="content-list">
-        <!-- Nội dung bài viết sẽ được hiển thị ở đây -->
-    </div>
 
-    <button class="back-btn" onclick="window.location.href='manage-posts.html'">Quay lại danh sách bài viết</button>
-</div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
 
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
+        async function fetchPostContent() {
+            try {
+                const response = await fetch(`https://localhost:7296/api/Contents/Post/${postId}`);
+                const contents = await response.json();
 
-    async function fetchPostContent() {
-        try {
-            const response = await fetch(`https://localhost:7296/api/Contents/Post/${postId}`);
-            const contents = await response.json();
+                const contentListDiv = document.getElementById('content-list');
+                contentListDiv.innerHTML = '';
 
-            const contentListDiv = document.getElementById('content-list');
-            contentListDiv.innerHTML = '';
+                if (contents && contents.length > 0) {
+                    // Sắp xếp nội dung theo thứ tự
+                    contents.sort((a, b) => a.order - b.order);
 
-            if (contents && contents.length > 0) {
-                // Sắp xếp nội dung theo thứ tự
-                contents.sort((a, b) => a.order - b.order);
+                    const groupedContents = {};
 
-                const groupedContents = {};
-
-                contents.forEach(content => {
-                    if (!groupedContents[content.order]) {
-                        groupedContents[content.order] = [];
-                    }
-                    groupedContents[content.order].push(content);
-                });
-
-                for (let order in groupedContents) {
-                    const groupDiv = document.createElement('div');
-                    groupDiv.classList.add('content-group');
-
-                    groupedContents[order].forEach(content => {
-                        const contentDiv = document.createElement('div');
-                        contentDiv.classList.add('content-item');
-                        
-                        // Thêm phần hiển thị số thứ tự
-                        const orderNumber = document.createElement('div');
-                        orderNumber.classList.add('order-number');
-                        orderNumber.textContent = content.order;
-                        contentDiv.appendChild(orderNumber);
-
-                        if (content.type === 'Text') {
-                            const textContent = document.createElement('p');
-                            textContent.textContent = content.content || 'Không có nội dung văn bản';
-                            contentDiv.appendChild(textContent);
-                        } else if (content.type === 'Image') {
-                            const imageContent = document.createElement('img');
-                            imageContent.id = `content-image-${content.id}`;
-                            imageContent.src = `https://localhost:7296/api/Contents/GetImage/${content.id}`;
-                            contentDiv.appendChild(imageContent);
-                        } else if (content.type === 'Video') {
-                            const videoContent = document.createElement('video');
-                            videoContent.id = `content-video-${content.id}`;
-                            videoContent.src = `https://localhost:7296/api/Contents/Play/${content.content}`;
-                            videoContent.controls = true;
-                            contentDiv.appendChild(videoContent);
+                    contents.forEach(content => {
+                        if (!groupedContents[content.order]) {
+                            groupedContents[content.order] = [];
                         }
-
-                        const editBtn = document.createElement('button');
-                        editBtn.textContent = 'Chỉnh sửa';
-                        editBtn.classList.add('edit-btn');
-                        editBtn.onclick = () => editContent(content);
-                        contentDiv.appendChild(editBtn);
-
-                        const orderBtn = document.createElement('button');
-                        orderBtn.textContent = 'Thay đổi thứ tự';
-                        orderBtn.classList.add('order-btn');
-                        orderBtn.onclick = () => changeOrder(content);
-                        contentDiv.appendChild(orderBtn);
-
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.textContent = 'Xóa';
-                        deleteBtn.classList.add('delete-btn');
-                        deleteBtn.onclick = () => deleteContent(content);
-                        contentDiv.appendChild(deleteBtn);
-
-                        groupDiv.appendChild(contentDiv);
+                        groupedContents[content.order].push(content);
                     });
 
-                    contentListDiv.appendChild(groupDiv);
-                }
-            } else {
-                contentListDiv.innerHTML = '<p>Không có nội dung cho bài viết này.</p>';
-            }
-        } catch (error) {
-            console.error('Lỗi khi tải nội dung bài viết:', error);
-        }
-    }
+                    for (let order in groupedContents) {
+                        const groupDiv = document.createElement('div');
+                        groupDiv.classList.add('content-group');
 
-    async function editContent(content) {
-        if (content.type === 'Text') {
-            const newText = prompt('Chỉnh sửa nội dung văn bản:', content.content);
-            if (newText !== null) {
+                        groupedContents[order].forEach(content => {
+                            const contentDiv = document.createElement('div');
+                            contentDiv.classList.add('content-item');
+                            
+                            // Thêm phần hiển thị số thứ tự
+                            const orderNumber = document.createElement('div');
+                            orderNumber.classList.add('order-number');
+                            orderNumber.textContent = content.order;
+                            contentDiv.appendChild(orderNumber);
+
+                            if (content.type === 'Text') {
+                                const textContent = document.createElement('p');
+                                textContent.textContent = content.content || 'Không có nội dung văn bản';
+                                contentDiv.appendChild(textContent);
+                            } else if (content.type === 'Image') {
+                                const imageContent = document.createElement('img');
+                                imageContent.id = `content-image-${content.id}`;
+                                imageContent.src = `https://localhost:7296/api/Contents/GetImage/${content.id}`;
+                                contentDiv.appendChild(imageContent);
+                            } else if (content.type === 'Video') {
+                                const videoContent = document.createElement('video');
+                                videoContent.id = `content-video-${content.id}`;
+                                videoContent.src = `https://localhost:7296/api/Contents/Play/${content.content}`;
+                                videoContent.controls = true;
+                                contentDiv.appendChild(videoContent);
+                            }
+
+                            const editBtn = document.createElement('button');
+                            editBtn.textContent = 'Chỉnh sửa';
+                            editBtn.classList.add('edit-btn');
+                            editBtn.onclick = () => editContent(content);
+                            contentDiv.appendChild(editBtn);
+
+                            const orderBtn = document.createElement('button');
+                            orderBtn.textContent = 'Thay đổi thứ tự';
+                            orderBtn.classList.add('order-btn');
+                            orderBtn.onclick = () => changeOrder(content);
+                            contentDiv.appendChild(orderBtn);
+
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.textContent = 'Xóa';
+                            deleteBtn.classList.add('delete-btn');
+                            deleteBtn.onclick = () => deleteContent(content);
+                            contentDiv.appendChild(deleteBtn);
+
+                            groupDiv.appendChild(contentDiv);
+                        });
+
+                        contentListDiv.appendChild(groupDiv);
+                    }
+                } else {
+                    contentListDiv.innerHTML = '<p>Không có nội dung cho bài viết này.</p>';
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải nội dung bài viết:', error);
+            }
+        }
+
+        async function editContent(content) {
+            const apiBaseUrl = 'https://localhost:7296/api/Contents';
+
+            if (content.type === 'Text') {
+                // Tạo một modal để chỉnh sửa nội dung
+                const modal = document.createElement('div');
+                modal.classList.add('modal');
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                            <p><b>Hướng dẫn sử dụng cú pháp Markdown:</b></p>
+                            <p><b><u>In đậm:</u></b> Dùng ** để bọc văn bản cần in đậm.</p>
+                            <p><b><u>In nghiêng:</u></b> Dùng * để bọc văn bản cần in nghiêng.</p>
+                            <p><b><u>Danh sách không thứ tự:</u></b> Dùng - ở đầu mỗi dòng để tạo mục trong danh sách.</p>
+                            <p><b><u>Tiêu đề:</u></b> Dùng # (1 dấu # cho tiêu đề cấp 1, 2 dấu ## cho tiêu đề cấp 2).</p>
+                            <p><b><u>Xuống dòng:</u></b> Trước dòng muốn xuống đặt <code>&lt;br&gt;</code>.</p>
+                        <h3>Chỉnh sửa nội dung văn bản</h3>
+                        <textarea id="edit-text" rows="10" cols="50">${content.content}</textarea>
+                        <br>
+                        <button id="save-button">Lưu</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+
+                const closeButton = modal.querySelector('.close');
+                const saveButton = modal.querySelector('#save-button');
+                
+                // Đóng modal khi nhấn nút đóng
+                closeButton.addEventListener('click', () => {
+                    modal.remove();
+                });
+
+                // Lưu nội dung khi nhấn nút "Lưu"
+                saveButton.addEventListener('click', async () => {
+                    const newText = document.getElementById('edit-text').value;
+                    if (newText !== content.content) {
+                        try {
+                            const response = await fetch(`${apiBaseUrl}/${content.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    id: content.id,
+                                    postId: content.postId,
+                                    order: content.order,
+                                    type: content.type,
+                                    content: newText,
+                                }),
+                            });
+
+                            if (response.ok) {
+                                alert('Cập nhật văn bản thành công!');
+                                fetchPostContent(); // Làm mới danh sách nội dung
+                            } else {
+                                const errorData = await response.json();
+                                alert(`Lỗi khi cập nhật văn bản: ${errorData.Message || 'Không xác định'}`);
+                            }
+                        } catch (error) {
+                            console.error('Lỗi khi cập nhật văn bản:', error);
+                            alert('Có lỗi xảy ra khi kết nối đến server.');
+                        }
+                    }
+                    modal.remove();  // Đóng modal sau khi lưu
+                });
+            } else if (content.type === 'Image') {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+
+                fileInput.onchange = async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('newImage', file);
+
+                        try {
+                            const response = await fetch(`${apiBaseUrl}/UpdateImage/${content.id}`, {
+                                method: 'PUT',
+                                body: formData,
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                alert(data.Message || 'Cập nhật hình ảnh thành công!');
+                                
+                                // Làm mới hình ảnh
+                                const imageElement = document.querySelector(`#content-image-${content.id}`);
+                                if (imageElement) {
+                                    imageElement.src = `${apiBaseUrl}/GetImage/${content.id}?t=${Date.now()}`;
+                                }
+                            } else {
+                                alert(`Lỗi khi cập nhật hình ảnh: ${data.Message || 'Không xác định'}`);
+                            }
+                        } catch (error) {
+                            console.error('Lỗi khi cập nhật hình ảnh:', error);
+                            alert('Có lỗi xảy ra khi gửi hình ảnh.');
+                        }
+                    }
+                };
+
+                fileInput.click();
+            } else if (content.type === 'Video') {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'video/*';
+
+                fileInput.onchange = async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('video', file);
+
+                        try {
+                            const response = await fetch(`${apiBaseUrl}/UpdateVideo?contentId=${content.id}`, {
+                                method: 'POST',
+                                body: formData,
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                alert('Cập nhật video thành công!');
+                                
+                                // Làm mới video
+                                const videoElement = document.querySelector(`#content-video-${content.id}`);
+                                if (videoElement) {
+                                    videoElement.src = `${apiBaseUrl}/Play/${content.content}?t=${Date.now()}`;
+                                    videoElement.load();
+                                }
+                            } else {
+                                alert(`Lỗi khi cập nhật video: ${data.Message || 'Không xác định'}`);
+                            }
+                        } catch (error) {
+                            console.error('Lỗi khi cập nhật video:', error);
+                            alert('Có lỗi xảy ra khi gửi video.');
+                        }
+                    }
+                };
+
+                fileInput.click();
+            }
+        }
+
+        async function deleteContent(content) {
+            const confirmDelete = confirm(`Bạn có chắc chắn muốn xóa nội dung này không?`);
+            if (confirmDelete) {
+                try {
+                    const response = await fetch(`https://localhost:7296/api/Contents/DeleteContent/${content.id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.ok) {
+                        alert('Xóa nội dung thành công!');
+                        fetchPostContent(); // Tải lại danh sách nội dung sau khi xóa
+                    } else {
+                        const errorData = await response.json();
+                        alert(`Lỗi khi xóa nội dung: ${errorData.Message || 'Không xác định'}`);
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi gọi API xóa nội dung:', error);
+                    alert('Đã xảy ra lỗi khi xóa nội dung.');
+                }
+            }
+        }
+
+
+        async function changeOrder(content) {
+            const newOrder = prompt('Nhập thứ tự mới:', content.order);
+            if (newOrder !== null && !isNaN(newOrder)) {
+                content.order = parseInt(newOrder);
                 try {
                     const response = await fetch(`https://localhost:7296/api/Contents/${content.id}`, {
                         method: 'PUT',
@@ -273,20 +587,49 @@
                             postId: content.postId,
                             order: content.order,
                             type: content.type,
-                            content: newText,
+                            content: content.content,
                         }),
                     });
+
                     if (response.ok) {
-                        alert('Cập nhật văn bản thành công!');
+                        alert('Thứ tự đã được thay đổi thành công!');
                         fetchPostContent();
                     } else {
-                        alert('Lỗi khi cập nhật văn bản!');
+                        alert('Lỗi khi cập nhật thứ tự!');
                     }
                 } catch (error) {
-                    console.error('Lỗi khi cập nhật văn bản:', error);
+                    console.error('Lỗi khi cập nhật thứ tự:', error);
+                    alert('Có lỗi xảy ra khi thay đổi thứ tự.');
                 }
             }
-        } else if (content.type === 'Image') {
+        }
+
+        async function createText() {
+            try {
+                const response = await fetch(`https://localhost:7296/api/Contents/AddText`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        postId: postId,  // postId hiện tại
+                        content: "Nội dung văn bản mới",  // Bạn có thể thay đổi nội dung văn bản tùy ý
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Tạo văn bản mới thành công!');
+                    fetchPostContent();
+                } else {
+                    alert('Lỗi khi tạo văn bản!');
+                }
+            } catch (error) {
+                console.error('Lỗi khi tạo văn bản:', error);
+            }
+        }
+
+        async function createImage() {
+            const formData = new FormData();
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
             fileInput.accept = 'image/*';
@@ -294,230 +637,75 @@
             fileInput.onchange = async (event) => {
                 const file = event.target.files[0];
                 if (file) {
-                    const formData = new FormData();
-                    formData.append('newImage', file);
+                    // Thêm tệp vào FormData dưới trường 'image'
+                    formData.append('image', file);
+                    // Thêm postId vào FormData (nếu cần thiết cho API)
+                    formData.append('postId', postId);
 
                     try {
-                        const response = await fetch(`https://localhost:7296/api/Contents/UpdateImage/${content.id}`, {
-                            method: 'PUT',
-                            body: formData,
+                        const response = await fetch(`https://localhost:7296/api/Contents/AddImage?postId=${postId}`, {
+                            method: 'POST',
+                            body: formData,  // Gửi dữ liệu dưới dạng FormData
                         });
 
-                        const data = await response.json();
-
                         if (response.ok) {
-                            alert(data.Message || 'Cập nhật hình ảnh thành công!');
-                            
-                            const imageElement = document.querySelector(`#content-image-${content.id}`);
-                            if (imageElement) {
-                                imageElement.src = `https://localhost:7296/api/Contents/GetImage/${content.id}?t=${new Date().getTime()}`;
-                            }
+                            alert('Tạo hình ảnh mới thành công!');
+                            fetchPostContent();  // Reload nội dung bài viết
                         } else {
-                            alert(`Lỗi khi cập nhật hình ảnh: ${data.Message || 'Không xác định'}`);
+                            const errorData = await response.json();
+                            alert(`Lỗi khi tạo hình ảnh: ${errorData.Message || 'Không xác định'}`);
                         }
                     } catch (error) {
-                        console.error('Lỗi khi cập nhật hình ảnh:', error);
-                        alert('Có lỗi xảy ra khi gửi hình ảnh.');
+                        console.error('Lỗi khi tạo hình ảnh:', error);
                     }
                 }
             };
 
             fileInput.click();
-        } else if (content.type === 'Video') {
+        }
+
+        async function createVideo() {
+            const formData = new FormData();
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
-            fileInput.accept = 'video/*';
+            fileInput.accept = 'video/*';  // Chỉ cho phép chọn video
 
             fileInput.onchange = async (event) => {
                 const file = event.target.files[0];
                 if (file) {
-                    const formData = new FormData();
+                    // Thêm tệp video vào FormData dưới trường 'video'
                     formData.append('video', file);
+                    // Thêm postId vào FormData
+                    formData.append('postId', postId);
 
                     try {
-                        const response = await fetch(`https://localhost:7296/api/Contents/UpdateVideo?contentId=${content.id}`, {
+                        const response = await fetch(`https://localhost:7296/api/Contents/AddVideo?postId=${postId}`, {
                             method: 'POST',
-                            body: formData,
+                            body: formData,  // Gửi dữ liệu dưới dạng FormData
                         });
 
-                        const data = await response.json();
-
                         if (response.ok) {
-                            alert('Cập nhật video thành công!');
-                            
-                            const videoElement = document.querySelector(`#content-video-${content.id}`);
-                            if (videoElement) {
-                                videoElement.src = `https://localhost:7296/api/Contents/Play/${content.content}?t=${new Date().getTime()}`;
-                                videoElement.load();
-                            }
+                            alert('Tạo video mới thành công!');
+                            fetchPostContent();  // Reload nội dung bài viết
                         } else {
-                            alert('Lỗi khi cập nhật video!');
+                            const errorData = await response.json();
+                            alert(`Lỗi khi tạo video: ${errorData.Message || 'Không xác định'}`);
                         }
                     } catch (error) {
-                        console.error('Lỗi khi cập nhật video:', error);
-                        alert('Có lỗi xảy ra khi gửi video.');
+                        console.error('Lỗi khi tạo video:', error);
                     }
                 }
             };
 
             fileInput.click();
         }
-    }
-    async function deleteContent(content) {
-        const confirmDelete = confirm(`Bạn có chắc chắn muốn xóa nội dung này không?`);
-        if (confirmDelete) {
-            try {
-                const response = await fetch(`https://localhost:7296/api/Contents/DeleteContent/${content.id}`, {
-                    method: 'DELETE',
-                });
-
-                if (response.ok) {
-                    alert('Xóa nội dung thành công!');
-                    fetchPostContent(); // Tải lại danh sách nội dung sau khi xóa
-                } else {
-                    const errorData = await response.json();
-                    alert(`Lỗi khi xóa nội dung: ${errorData.Message || 'Không xác định'}`);
-                }
-            } catch (error) {
-                console.error('Lỗi khi gọi API xóa nội dung:', error);
-                alert('Đã xảy ra lỗi khi xóa nội dung.');
-            }
-        }
-    }
-
-
-    async function changeOrder(content) {
-        const newOrder = prompt('Nhập thứ tự mới:', content.order);
-        if (newOrder !== null && !isNaN(newOrder)) {
-            content.order = parseInt(newOrder);
-            try {
-                const response = await fetch(`https://localhost:7296/api/Contents/${content.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: content.id,
-                        postId: content.postId,
-                        order: content.order,
-                        type: content.type,
-                        content: content.content,
-                    }),
-                });
-
-                if (response.ok) {
-                    alert('Thứ tự đã được thay đổi thành công!');
-                    fetchPostContent();
-                } else {
-                    alert('Lỗi khi cập nhật thứ tự!');
-                }
-            } catch (error) {
-                console.error('Lỗi khi cập nhật thứ tự:', error);
-                alert('Có lỗi xảy ra khi thay đổi thứ tự.');
-            }
-        }
-    }
-
-    async function createText() {
-        try {
-            const response = await fetch(`https://localhost:7296/api/Contents/AddText`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    postId: postId,  // postId hiện tại
-                    content: "Nội dung văn bản mới",  // Bạn có thể thay đổi nội dung văn bản tùy ý
-                }),
-            });
-
-            if (response.ok) {
-                alert('Tạo văn bản mới thành công!');
-                fetchPostContent();
-            } else {
-                alert('Lỗi khi tạo văn bản!');
-            }
-        } catch (error) {
-            console.error('Lỗi khi tạo văn bản:', error);
-        }
-    }
-
-    async function createImage() {
-        const formData = new FormData();
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-
-        fileInput.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                // Thêm tệp vào FormData dưới trường 'image'
-                formData.append('image', file);
-                // Thêm postId vào FormData (nếu cần thiết cho API)
-                formData.append('postId', postId);
-
-                try {
-                    const response = await fetch(`https://localhost:7296/api/Contents/AddImage?postId=${postId}`, {
-                        method: 'POST',
-                        body: formData,  // Gửi dữ liệu dưới dạng FormData
-                    });
-
-                    if (response.ok) {
-                        alert('Tạo hình ảnh mới thành công!');
-                        fetchPostContent();  // Reload nội dung bài viết
-                    } else {
-                        const errorData = await response.json();
-                        alert(`Lỗi khi tạo hình ảnh: ${errorData.Message || 'Không xác định'}`);
-                    }
-                } catch (error) {
-                    console.error('Lỗi khi tạo hình ảnh:', error);
-                }
-            }
-        };
-
-        fileInput.click();
-    }
-
-    async function createVideo() {
-        const formData = new FormData();
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'video/*';  // Chỉ cho phép chọn video
-
-        fileInput.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                // Thêm tệp video vào FormData dưới trường 'video'
-                formData.append('video', file);
-                // Thêm postId vào FormData
-                formData.append('postId', postId);
-
-                try {
-                    const response = await fetch(`https://localhost:7296/api/Contents/AddVideo?postId=${postId}`, {
-                        method: 'POST',
-                        body: formData,  // Gửi dữ liệu dưới dạng FormData
-                    });
-
-                    if (response.ok) {
-                        alert('Tạo video mới thành công!');
-                        fetchPostContent();  // Reload nội dung bài viết
-                    } else {
-                        const errorData = await response.json();
-                        alert(`Lỗi khi tạo video: ${errorData.Message || 'Không xác định'}`);
-                    }
-                } catch (error) {
-                    console.error('Lỗi khi tạo video:', error);
-                }
-            }
-        };
-
-        fileInput.click();
-    }
-
-
-
-    fetchPostContent();
-</script>
+        fetchPostContent();
+    </script>
+    
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>    
 
 </body>
 </html>
