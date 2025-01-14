@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa Sân tập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: #34495E;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            text-align: center;
+        }
+    
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+    
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch; /* Đảm bảo các input, select, button có chiều rộng giống nhau */
+            width: 100%;
+        }
+
+        label {
+            font-size: 18px;
+            margin: 10px 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        input, select {
+            padding: 12px;
+            margin-bottom: 20px;
+            width: 100%; /* Đảm bảo chiều rộng của các input và select đều nhau */
+            font-size: 16px;
+            border: 1px solid #fff;
+            border-radius: 6px;
+            background-color: #34495e;
+            color: #fff;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%; /* Đảm bảo nút có chiều rộng 100% */
+            margin-top: 20px;
+        }
+
+    
+        button:hover {
+            background-color: #2980b9;
+        }
+    
+        .back-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+    
+        .back-btn:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Chỉnh sửa Sân tập</h1>
+        <form id="edit-area-form">
+            <label for="area-name">Tên Sân tập:</label>
+            <input type="text" id="area-name" required>
+
+            <label for="area-address">Địa chỉ:</label>
+            <input type="text" id="area-address" required>
+
+            <label for="area-district">Quận:</label>
+            <select id="area-district" required>
+                <option value="">Chọn Quận</option>
+                <!-- Quận sẽ được tải từ API -->
+            </select>
+
+            <label for="area-image">Hình ảnh:</label>
+            <input type="file" id="area-image" accept="image/*">
+
+            <button type="submit">Cập nhật</button>
+        </form>
+
+        <button class="back-btn" onclick="window.location.href='manage-areas.html'">Quay lại</button>
+    </div>
+
+    <script>
+        const areaId = new URLSearchParams(window.location.search).get('id');
+        const API_URL = `https://localhost:7296/api/Areas/${areaId}`;
+        const DISTRICTS_API_URL = `https://localhost:7296/api/Districts`;
+        const IMAGE_API_URL = `https://localhost:7296/api/Areas/EditImages/${areaId}`;
+
+        // Hàm tải dữ liệu quận từ API và hiển thị lên select
+        async function loadDistricts() {
+            try {
+                const response = await fetch(DISTRICTS_API_URL);
+                if (response.ok) {
+                    const districts = await response.json();
+                    const districtSelect = document.getElementById('area-district');
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district.id;
+                        option.textContent = district.name;
+                        districtSelect.appendChild(option);
+                    });
+                } else {
+                    alert('Không thể tải dữ liệu quận');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu quận:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu quận');
+            }
+        }
+
+        // Hàm tải dữ liệu sân tập từ API và hiển thị lên form
+        async function loadAreaData() {
+            try {
+                const response = await fetch(API_URL);
+                if (response.ok) {
+                    const area = await response.json();
+                    document.getElementById('area-name').value = area.name;
+                    document.getElementById('area-address').value = area.address;
+
+                    // Hiển thị hình ảnh hiện tại
+                    const imagePath = area.imagePath;
+                    if (imagePath) {
+                        document.getElementById('area-image').setAttribute('data-image-path', imagePath);
+                    }
+
+                    // Chọn quận hiện tại
+                    const districtSelect = document.getElementById('area-district');
+                    districtSelect.value = area.districtId; // Giả sử API trả về districtId
+                } else {
+                    alert('Không thể tải dữ liệu sân tập');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu');
+            }
+        }
+
+        // Hàm gửi dữ liệu chỉnh sửa sân tập lên API
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('area-name').value;
+            const address = document.getElementById('area-address').value;
+            const districtId = document.getElementById('area-district').value;
+
+            const payload = {
+                name,
+                address,
+                districtId,
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    alert('Cập nhật sân tập thành công');
+                    window.location.href = 'manage-areas.html';
+                } else {
+                    const errorText = await response.text(); // Đọc lỗi chi tiết từ server
+                    console.error('Response error:', errorText);
+                    alert('Không thể cập nhật sân tập');
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi dữ liệu:', error);
+                alert('Có lỗi xảy ra khi cập nhật');
+            }
+        }
+
+        // Tải dữ liệu quận và sân tập khi trang được tải
+        window.onload = () => {
+            loadDistricts();
+            loadAreaData();
+        };
+
+        // Thêm sự kiện gửi form
+        document.getElementById('edit-area-form').addEventListener('submit', submitForm);
+    </script>
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>
+</body>
+</html>

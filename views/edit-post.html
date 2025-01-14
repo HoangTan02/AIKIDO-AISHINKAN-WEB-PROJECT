@@ -520,7 +520,7 @@
 
                         try {
                             const response = await fetch(`${apiBaseUrl}/UpdateVideo?contentId=${content.id}`, {
-                                method: 'POST',
+                                method: 'PUT',
                                 body: formData,
                             });
 

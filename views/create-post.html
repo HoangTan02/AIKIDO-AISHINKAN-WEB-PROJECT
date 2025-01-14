@@ -160,9 +160,12 @@
 
             const title = document.getElementById("title").value;
             const writer = document.getElementById("writer").value;
+            
+            // Lấy thời gian hiện tại UTC+7
+            const createdAt = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString(); // Cộng 7 giờ vào
 
             try {
-                const response = await axios.post(API_URL, { title, writer });
+                const response = await axios.post(API_URL, { title, writer, createdAt });
 
                 if (response.status === 200 || response.status === 201) {
                     console.log("Tạo bài viết thành công:", response.data);
@@ -176,6 +179,7 @@
                 alert("Không thể kết nối đến server: " + (error.response?.data || error.message));
             }
         });
+
 
         closePopupButton.addEventListener("click", closePopup); // Đóng popup
     </script>

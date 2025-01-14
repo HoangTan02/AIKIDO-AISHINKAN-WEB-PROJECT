@@ -102,6 +102,21 @@
             color: #e74c3c;
             margin-top: 10px;
         }
+
+        /* Thêm kiểu cho icon mắt */
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 24px; /* Kích thước hình ảnh */
+            height: 24px; /* Kích thước hình ảnh */
+        }
+
+        .input-container {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -113,7 +128,10 @@
             <input type="text" id="username" name="phoneNumber" required>
             
             <label for="password">Mật khẩu:</label>
-            <input type="password" id="password" name="password" required>
+            <div class="input-container">
+                <input type="password" id="password" name="password" required>
+                <img id="toggle-password" class="eye-icon" src="../images/eye.png" alt="Eye icon"> <!-- Thay đổi đường dẫn tới hình ảnh của bạn -->
+            </div>
             
             <button type="submit">Đăng Nhập</button>
         </form>
@@ -169,6 +187,20 @@
             const password = document.querySelector("#password").value;
 
             login(phoneNumber, password); // Gọi hàm login khi người dùng nhấn submit
+        });
+
+        // Thêm sự kiện click vào icon mắt
+        document.getElementById("toggle-password").addEventListener("click", function () {
+            const passwordField = document.getElementById("password");
+            const type = passwordField.type === "password" ? "text" : "password"; 
+            passwordField.type = type; // Thay đổi loại input
+
+            // Thay đổi hình ảnh icon
+            if (passwordField.type === "password") {
+                this.src = "../images/eye.png"; // Mắt mở
+            } else {
+                this.src = "../images/eye.png"; // Mắt đóng
+            }
         });
     </script>
 </body>

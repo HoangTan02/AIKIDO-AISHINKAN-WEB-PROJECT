@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Sân tập</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2C3E50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #34495E;
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #ECF0F1;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            width: 100%;
+        }
+
+        label {
+            font-size: 18px;
+            color: #ECF0F1;
+            margin-bottom: 10px;
+            text-align: left;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        input, select {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            width: 80%;
+            margin-bottom: 15px;
+            border: 1px solid #BDC3C7;
+            box-sizing: border-box;
+        }
+
+        select:focus, input:focus {
+            border-color: #1ABC9C;
+            outline: none;
+        }
+
+        button {
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s all ease-in-out;
+            border: none;
+            background-color: #1ABC9C;
+            color: #fff;
+            width: 80%;
+        }
+
+        button:hover {
+            background-color: #16A085;
+        }
+
+        .back-btn {
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background-color: #F39C12;
+            color: #fff;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #E67E22;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            input, select, button {
+                width: 100%;
+            }
+
+            label {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tạo Sân tập</h1>
+        <form id="create-area-form">
+            <label for="district-select">Chọn Quận:</label>
+            <select id="district-select" required>
+                <!-- Danh sách quận sẽ được tải từ API -->
+            </select>
+
+            <label for="area-name">Tên Sân tập:</label>
+            <input type="text" id="area-name" required>
+
+            <label for="area-address">Địa chỉ:</label>
+            <input type="text" id="area-address" required>
+
+            <label for="area-image">Hình ảnh:</label>
+            <input type="file" id="area-image" accept="image/*" required>
+
+            <button type="submit">Tạo Sân tập</button>
+        </form>
+
+        <button class="back-btn" onclick="window.location.href='manage-areas.html'">Quay lại trang quản lý sân tập</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const districtSelect = document.getElementById('district-select');
+            const createAreaForm = document.getElementById('create-area-form');
+            const areaImageInput = document.getElementById('area-image');
+            
+            // Lấy danh sách quận từ API
+            fetch('https://localhost:7296/api/Districts')
+                .then(response => response.json())
+                .then(districts => {
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district.id;  // Dùng ID của quận làm giá trị
+                        option.textContent = district.name;  // Tên quận sẽ hiển thị cho người dùng
+                        districtSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Lỗi khi tải quận:', error));
+
+            // Xử lý gửi form
+            createAreaForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Kiểm tra tệp hình ảnh
+                if (!areaImageInput.files[0]) {
+                    alert('Vui lòng chọn một hình ảnh!');
+                    return;
+                }
+
+                // Lấy ID và tên quận đã chọn
+                const selectedDistrict = districtSelect.options[districtSelect.selectedIndex];
+                const districtId = selectedDistrict.value;
+                const districtName = selectedDistrict.textContent;
+
+                // Tạo dữ liệu sân tập
+                const areaData = {
+                    district: districtName,  // Tên quận
+                    districtId: districtId,  // ID của quận đã chọn
+                    name: document.getElementById('area-name').value,
+                    address: document.getElementById('area-address').value,
+                };
+
+                // Tạo FormData để gửi API
+                const formData = new FormData();
+                formData.append('district', areaData.district);  // Tên quận
+                formData.append('districtId', areaData.districtId);  // districtId
+                formData.append('name', areaData.name);  // Tên sân tập
+                formData.append('address', areaData.address);  // Địa chỉ
+                formData.append('image', areaImageInput.files[0]);  // Hình ảnh
+
+                // Gửi yêu cầu tạo sân tập
+                fetch('https://localhost:7296/api/Areas', {
+                    method: 'POST',
+                    body: formData // Gửi FormData chứa tất cả các dữ liệu
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error('API Error: ' + text);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Sân tập đã được tạo thành công!');
+                    createAreaForm.reset();
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tạo sân tập:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                });
+            });
+        });
+    </script>
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>
+</body>
+</html>

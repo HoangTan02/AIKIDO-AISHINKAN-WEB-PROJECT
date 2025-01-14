@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Khu vực</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2c3e50;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            text-align: left;
+            width: 100%;
+        }
+
+        input {
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ecf0f1;
+            background-color: #34495e;
+            color: #ecf0f1;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: #e67e22;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ecf0f1;
+        }
+
+        th {
+            background-color: #34495e;
+        }
+
+        td {
+            background-color: #2c3e50;
+        }
+
+        button {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+        }
+
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .save-btn {
+            background-color: #3498db;
+        }
+
+        .save-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Quản lý Khu vực</h1>
+
+        <!-- Form tạo quận -->
+        <h2>Tạo mới:</h2>
+        <form id="create-district-form">
+            <label for="district-name">Tên khu vực:</label>
+            <input type="text" id="district-name" required>
+
+            <button type="submit">Tạo khu vực</button>
+        </form>
+
+
+        <!-- Danh sách các quận -->
+        <h2>Danh sách:</h2>
+        <table id="district-table">
+            <thead>
+                <tr>
+                    <th>Tên Quận</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Danh sách quận sẽ được tải ở đây -->
+            </tbody>
+        </table>
+
+        <button class="back-btn" onclick="window.location.href='manage-areas.html'">Quay lại</button>
+    </div>
+
+    <script>
+        const API_URL = 'https://localhost:7296/api/Districts';
+        let editingDistrictId = null; // Biến theo dõi khu vực đang được chỉnh sửa
+
+        // Hàm tải danh sách quận từ API và hiển thị trong bảng
+        async function loadDistricts() {
+            try {
+                const response = await fetch(API_URL);
+                if (response.ok) {
+                    const districts = await response.json();
+                    const tableBody = document.querySelector('#district-table tbody');
+                    tableBody.innerHTML = ''; // Xóa nội dung cũ
+
+                    districts.forEach(district => {
+                        const row = document.createElement('tr');
+                        row.id = `district-row-${district.id}`;
+
+                        // Tạo cột tên quận
+                        row.innerHTML = `
+                            <td>
+                                <span id="district-name-${district.id}">${district.name}</span>
+                                <input type="text" id="district-input-${district.id}" style="display:none;" value="${district.name}">
+                            </td>
+                            <td>
+                                <button class="edit-btn" onclick="startEdit(${district.id})">Chỉnh sửa</button>
+                                <button class="save-btn" onclick="saveEdit(${district.id})" style="display:none;">Lưu</button>
+                                <button class="delete-btn" onclick="deleteDistrict(${district.id})">Xóa</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    alert('Không thể tải danh sách quận');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách quận:', error);
+                alert('Có lỗi xảy ra khi tải danh sách quận');
+            }
+        }
+
+        // Hàm gửi yêu cầu tạo quận lên API
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const districtName = document.getElementById('district-name').value;
+
+            if (!districtName) {
+                alert('Tên quận không thể để trống');
+                return;
+            }
+
+            const districtData = {
+                name: districtName
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(districtData)
+                });
+
+                if (response.ok) {
+                    alert('Tạo quận thành công');
+                    loadDistricts(); // Tải lại danh sách quận
+                } else {
+                    alert('Không thể tạo quận. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi yêu cầu tạo quận:', error);
+                alert('Có lỗi xảy ra khi tạo quận');
+            }
+        }
+
+        // Hàm bắt đầu chỉnh sửa
+        function startEdit(districtId) {
+            if (editingDistrictId !== null && editingDistrictId !== districtId) {
+                // Nếu đang chỉnh sửa khu vực khác, thoát chỉnh sửa
+                cancelEdit(editingDistrictId);
+            }
+
+            const nameElement = document.getElementById(`district-name-${districtId}`);
+            const inputElement = document.getElementById(`district-input-${districtId}`);
+            const saveButton = document.querySelector(`#district-row-${districtId} .save-btn`);
+            const editButton = document.querySelector(`#district-row-${districtId} .edit-btn`);
+
+            inputElement.style.display = 'inline-block';
+            saveButton.style.display = 'inline-block';
+            editButton.style.display = 'none';
+
+            editingDistrictId = districtId;
+        }
+
+        // Hàm hủy chỉnh sửa
+        function cancelEdit(districtId) {
+            const inputElement = document.getElementById(`district-input-${districtId}`);
+            const saveButton = document.querySelector(`#district-row-${districtId} .save-btn`);
+            const editButton = document.querySelector(`#district-row-${districtId} .edit-btn`);
+
+            inputElement.style.display = 'none';
+            saveButton.style.display = 'none';
+            editButton.style.display = 'inline-block';
+        }
+
+        // Hàm lưu quận sau khi chỉnh sửa
+        async function saveEdit(districtId) {
+            const districtName = document.getElementById(`district-input-${districtId}`).value;
+
+            if (!districtName) {
+                alert('Tên quận không thể để trống');
+                return;
+            }
+
+            const updatedDistrictData = {
+                name: districtName
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/${districtId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedDistrictData)
+                });
+
+                if (response.ok) {
+                    alert('Cập nhật quận thành công');
+                    loadDistricts(); // Tải lại danh sách quận
+                    editingDistrictId = null; // Reset trạng thái chỉnh sửa
+                } else {
+                    alert('Không thể cập nhật quận. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Lỗi khi cập nhật quận:', error);
+                alert('Có lỗi xảy ra khi cập nhật quận');
+            }
+        }
+
+        // Hàm xóa quận
+        async function deleteDistrict(districtId) {
+            const confirmDelete = confirm('Bạn có chắc chắn muốn xóa quận này?');
+
+            if (!confirmDelete) return;
+
+            try {
+                const response = await fetch(`${API_URL}/${districtId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Xóa quận thành công');
+                    loadDistricts(); // Tải lại danh sách quận
+                } else {
+                    alert('Không thể xóa quận. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Lỗi khi xóa quận:', error);
+                alert('Có lỗi xảy ra khi xóa quận');
+            }
+        }
+
+        // Thêm sự kiện gửi form
+        document.getElementById('create-district-form').addEventListener('submit', submitForm);
+
+        // Tải danh sách quận khi trang được tải
+        loadDistricts();
+    </script>
+    <script src="../config/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', checkAccess);
+    </script>
+</body>
+</html>

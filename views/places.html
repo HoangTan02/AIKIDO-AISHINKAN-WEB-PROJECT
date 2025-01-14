@@ -11,35 +11,70 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
+<style>
+    /* Thiết lập cho phần hình ảnh */
+    #detail-image-container {
+        width: 100%;
+        height: 300px; /* Có thể thay đổi tùy theo nhu cầu */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background-color: #f0f0f0; /* Màu nền nếu không có ảnh */
+        border-radius: 8px; /* Thêm bo góc cho container */
+    }
+
+    #detail-image {
+        width: 100%; /* Đảm bảo ảnh không vượt quá chiều rộng */
+        height: 100%; /* Đảm bảo ảnh không vượt quá chiều cao */
+        object-fit: contain; /* Giữ tỷ lệ ảnh mà không bị cắt xén */
+        object-position: center; /* Căn giữa ảnh */
+    }
+
+
+
+    /* Cải thiện kiểu dáng cho các thông tin chi tiết */
+    #detail-text {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+        text-align: center;
+    }
+
+    #detail-text strong {
+        color: #007bff; /* Màu xanh cho các tiêu đề */
+        font-weight: 600;
+    }
+
+
+    .details {
+        text-align: center;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .locations {
+        transition: opacity 0.5s ease;
+        opacity: 0;
+    }
+    .locations.active {
+        opacity: 1;
+    }
+
+
+</style>
 <body>
     <div id="header"> 
-    
     </div>
     <main>
         <div class="container">
-            <h2 class="text-center">Khu vực các lớp võ:</h2>
-            <div class="row-area">
-                <div class="col-md-4 area" data-area="TP Thủ Đức">
-                    <h3>TP Thủ Đức</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Quận 7">
-                    <h3>Quận 7</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Nhà Bè">
-                    <h3>Nhà Bè</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Quận 12">
-                    <h3>Quận 12</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Gò Vấp">
-                    <h3>Gò Vấp</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Mỹ Tho">
-                    <h3>Mỹ Tho</h3>
-                </div>
-                <div class="col-md-4 area" data-area="Tân An">
-                    <h3>Tân An</h3>
-                </div>
+            <h2 class="text-center">Khu vực:</h2>
+            <div class="row-area" id="districts-container">
+                <!-- Các quận sẽ được thêm vào đây qua JavaScript -->
             </div>
             <h2 class="text-center">Các sân tại khu vực này là:</h2>
             <div class="locations" id="locations-container">
@@ -47,150 +82,104 @@
             </div>
             
             <div class="details" id="details" style="display: none;">
-                <h4>Thông tin chi tiết về sân tập:</h4>
-                <img id="detail-image" style="max-width: 100%; display: none;" alt="Hình ảnh sân tập">
+                <h4>Thông tin chi tiết:</h4>
+                <div id="detail-image-container">
+                    <img id="detail-image" style="max-width: 100%; display: none;" alt="Hình ảnh sân tập">
+                </div>                
                 <div id="detail-text"></div>
             </div>
             
         </div>
         
         <script>
-            const locationsData = {
-                "TP Thủ Đức": [
-                    { name: "Massteri", address: "42 Đ. Số 10, Thảo Điền, Thủ Đức, Hồ Chí Minh", image: "../images/massteritd.jpg" },
-                    { name: "Vinhomes Grand Park", address: "Số 208 đường Nguyễn Hữu Cảnh, phường 22, quận Bình Thạnh, thành phố Hồ Chí Minh",time: "Thứ hai & sáu : 17:30 - 18:30", image: "../images/vhq2.jpg" },
-                    { name: "Estella Heights Tower", address: "RP2X+JPG, P. Bình An, Quận 2, TP. Hồ Chí Minh",time: "Thứ ba & năm : 17:00 - 16:00", image: "../images/esq2.jpg" },
-                    { name: "Vistaverde", address: "8 Nguyễn Thanh Sơn, Phường Thạnh Mỹ Lợi, Quận 2, Hồ Chí Minh", image: "../images/vistaverdeq2.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image7.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image8.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image9.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image10.jpg" }
-                ],
-                "Quận 7": [
-                    { name: "Nhà thi đấu đa năng Quận 7", address: "504 Huỳnh Tấn Phát, Bình Thuận, Quận 7, Hồ Chí Minh", image: "../images/ntdq7.jpg" },
-                    { name: "Rivera Point", address: "Nguyễn Văn Tưởng, Tân Phú, Quận 7, Hồ Chí Minh ", image: "path/to/image12.jpg" },
-                    { name: "Garden Court", address: "CN 6-1, Đ Tôn Dật Tiên, Khu đô thị Phú Mỹ Hưng, Quận 7, Hồ Chí Minh", image: "path/to/image13.jpg" },
-                    { name: "Lacasa", address: "80 Đ. Lê Thị Chợ, Phú Thuận, Quận 7, Hồ Chí Minh", image: "../images/lacasaq7.jpg" },
-                    { name: "Lux Garden", address: "528 Huỳnh Tấn Phát, Quận 7 liền kề Phú Mỹ Hưng", image: "../images/luxgardenq7.jpg" },
-                    { name: "Jamona", address: "722 Đào Trí, phường Phú Thuận, Quận 7", image: "../images/jamonaq7.jpg" }
-                ],
-                "Nhà Bè": [
-                    { name: "Saigon South", address: "113A Đ. Nguyễn Hữu Thọ, Phước Kiển, Nhà Bè, Hồ Chí Minh", image: "../images/saigonsouthnb.jpg" },
-                    { name: "Phú Hoàng Anh", address: "Đ. Nguyễn Hữu Thọ, Phước Kiển, Nhà Bè, Hồ Chí Minh", image: "path/to/image12.jpg" },
-                    { name: "Dragon Hill", address: "15A Đ. Nguyễn Hữu Thọ, Phước Kiển, Nhà Bè, Hồ Chí Minh", image: "../images/dragonhillnhabe.jpg" },
-                    { name: "Sunrise Riverside", address: "Nguyễn Hữu Thọ, xã Phước Kiểng, huyện Nhà Bè, TP.HCM.", image: "../images/sunriseriversidenhabe.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image15.jpg" }
-                ],
-                "Quận 12": [
-                    { name: "Nhà thiếu nhi Quận 12", address: "100 Hiệp Thành 11, Hiệp Thành, Quận 12, Hồ Chí Minh", image: "path/to/image16.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image17.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image18.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image19.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image20.jpg" }
-                ],
-                "Gò Vấp": [
-                    { name: "Nhà thiếu nhi Gò Vấp", address: "27 Đ. Số 9, Phường 16, Gò Vấp, Hồ Chí Minh ", image: "path/to/image21.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image22.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image23.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image24.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image25.jpg" }
-                ],
-                "Mỹ Tho": [
-                    { name: "Nhà thiếu nhi Tiền Giang", address: "Lương Hoà Lạc, Mỹ Tho, Tiền Giang", image: "path/to/image26.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image27.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image28.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image29.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image30.jpg" }
-                ],
-                "Tân An": [
-                    { name: "Nhà thiếu nhi Long An", address: "2 Võ Văn Tần, Phường 2, Tân An, Long An", image: "path/to/image31.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image32.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image33.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image34.jpg" },
-                    { name: "Sắp mở trong thời gian tới", address: "", image: "path/to/image35.jpg" }
-                ]
-            };
+           // Lấy danh sách các quận từ API
+            fetch('https://localhost:7296/api/Districts')
+                .then(response => response.json())
+                .then(districts => {
+                    const districtsContainer = document.getElementById('districts-container');
+                    
+                    districts.forEach(district => {
+                        const districtElement = document.createElement('div');
+                        districtElement.classList.add('col-md-4', 'area');
+                        districtElement.setAttribute('data-area', district.name);
+                        districtElement.setAttribute('data-id', district.id); // Lưu districtId để so sánh với areas
+                        districtElement.innerHTML = `<h3>${district.name}</h3>`;
+                        districtsContainer.appendChild(districtElement);
 
-                    document.querySelectorAll('.area').forEach(area => {
-                    area.addEventListener('click', function(event) {
-                    event.stopPropagation(); // Ngăn chặn sự kiện click lan tỏa
-                    const areaName = this.getAttribute('data-area');
-                    const locationsContainer = document.getElementById('locations-container');
+                        // Lắng nghe sự kiện click vào quận
+                        districtElement.addEventListener('click', function(event) {
+                            event.stopPropagation(); // Ngăn chặn sự kiện click lan tỏa
+                            const districtName = this.getAttribute('data-area'); // Lấy tên của quận đã chọn
+                            const locationsContainer = document.getElementById('locations-container');
 
-                    // Xóa tất cả các sân tập hiện có
-                    locationsContainer.innerHTML = '';
+                            // Xóa tất cả các sân tập hiện có
+                            locationsContainer.innerHTML = '';
 
-                    // Ẩn thông tin chi tiết
-                    document.getElementById('details').style.display = 'none';
-                    document.getElementById('detail-image').style.display = 'none'; // Ẩn hình ảnh
-                    document.getElementById('detail-text').innerHTML = ''; // Xóa thông tin chi tiết
+                            // Ẩn thông tin chi tiết
+                            document.getElementById('details').style.display = 'none';
+                            document.getElementById('detail-image').style.display = 'none'; // Ẩn hình ảnh
+                            document.getElementById('detail-text').innerHTML = ''; // Xóa thông tin chi tiết
 
-                    // Thêm các sân tập vào khung
-                    locationsData[areaName].forEach(location => {
-                        const locElement = document.createElement('p');
-                        locElement.classList.add('location');
-                        locElement.innerText = location.name;
-                        locElement.setAttribute('data-address', location.address);
-                        locElement.setAttribute('data-time', location.time); // Thêm thuộc tính thời gian
-                        locElement.setAttribute('data-image', location.image); // Thêm thuộc tính hình ảnh
-                        locationsContainer.appendChild(locElement);
-                    });
-                        locationsContainer.style.display = 'block'; 
-                        setTimeout(() => { 
-                            locationsContainer.style.opacity = '1'; 
-                        }, 10); // Thời gian để chuyển tiếp
-                                
+                            // Lấy danh sách sân tập
+                            fetch(`https://localhost:7296/api/Areas`)
+                                .then(response => response.json())
+                                .then(areas => {
+                                    // Lọc các sân tập thuộc khu vực có tên trùng với tên quận
+                                    const filteredAreas = areas.filter(area => area.district.toLowerCase() === districtName.toLowerCase());
 
-                    // Hiển thị khung sân tập
-                    locationsContainer.style.display = 'block';
+                                    if (filteredAreas.length > 0) {
+                                        // Thêm các sân tập vào khung
+                                        filteredAreas.forEach(area => {
+                                            const locElement = document.createElement('p');
+                                            locElement.classList.add('location');
+                                            locElement.innerText = area.name;
+                                            locElement.setAttribute('data-address', area.address);
+                                            locElement.setAttribute('data-image', `https://localhost:7296/api/Areas/Image/${area.id}`); // Lấy hình ảnh từ API
+                                            locElement.setAttribute('data-id', area.id); // Lưu ID để khi click vào sẽ lấy chi tiết
+                                            locationsContainer.appendChild(locElement);
+                                        });
 
-                    // Cuộn đến vị trí của khung sân tập
-                    locationsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    function showLocations(area) {
-                    const locationContainer = document.getElementById('location-container');
-                    const detailContainer = document.getElementById('detail-container');
+                                        locationsContainer.style.display = 'block'; 
+                                        setTimeout(() => { 
+                                            locationsContainer.style.opacity = '1'; 
+                                        }, 10); // Thời gian để chuyển tiếp
 
-                    // Dựa vào area, cập nhật các location
-                        if (area === 'Area 1') {
-                            locationContainer.innerHTML = `<div class="location">Location 1A</div><div class="location">Location 1B</div>`;
-                            detailContainer.innerHTML = `<p>Details for Location 1A</p>`;
-                        } else if (area === 'Area 2') {
-                            locationContainer.innerHTML = `<div class="location">Location 2A</div><div class="location">Location 2B</div>`;
-                            detailContainer.innerHTML = `<p>Details for Location 2A</p>`;
-                        } else if (area === 'Area 3') {
-                            locationContainer.innerHTML = `<div class="location">Location 3A</div><div class="location">Location 3B</div>`;
-                            detailContainer.innerHTML = `<p>Details for Location 3A</p>`;
-                        }
-                    }
-
-                    // Cập nhật thông tin chi tiết khi nhấp vào sân tập
-                    locationsContainer.querySelectorAll('.location').forEach(location => {
-                        location.addEventListener('click', function(event) {
-                            event.stopPropagation(); // Ngăn chặn sự kiện click cho khu vực
-                            const address = this.getAttribute('data-address');
-                            const time = this.getAttribute('data-time'); // Lấy thông tin thời gian
-                            const image = this.getAttribute('data-image'); // Lấy đường dẫn hình ảnh
-                            const details = document.getElementById('details');
-                            const detailImage = document.getElementById('detail-image');
-                            const detailText = document.getElementById('detail-text');
-
-                            // Cập nhật hình ảnh
-                            detailImage.src = image; // Cập nhật hình ảnh
-                            detailImage.style.display = 'block'; // Hiển thị hình ảnh
-                            detailText.innerHTML = `${this.innerText} - ${address}<br>Thời gian: ${time}`; // Thêm <br> để xuống dòng
-
-                            // Hiển thị thông tin chi tiết
-                            details.style.display = 'block';
-
-                            // Cuộn đến vị trí của khung thông tin chi tiết
-                            details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        // Cuộn đến vị trí của khung sân tập
+                                        locationsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    } else {
+                                        locationsContainer.innerHTML = '<p>Không có sân tập nào trong khu vực này.</p>';
+                                        locationsContainer.style.display = 'block';
+                                    }
+                                });
                         });
+
+                        // Lắng nghe sự kiện click vào sân tập để hiển thị chi tiết
+                        document.getElementById('locations-container').addEventListener('click', function(event) {
+                            const locationElement = event.target.closest('.location');
+                            if (locationElement) {
+                                const areaId = locationElement.getAttribute('data-id');
+                                const areaName = locationElement.innerText;  // Lấy tên sân tập từ nội dung văn bản
+                                const areaAddress = locationElement.getAttribute('data-address');
+                                const areaImage = locationElement.getAttribute('data-image');
+
+                                // Hiển thị thông tin chi tiết
+                                document.getElementById('details').style.display = 'block';
+                                document.getElementById('detail-image').style.display = 'block';
+                                document.getElementById('detail-image').setAttribute('src', areaImage);
+
+                                // Thêm tên sân tập vào phần chi tiết
+                                document.getElementById('detail-text').innerHTML = `
+                                    <p><strong>Tên sân tập:</strong> ${areaName}</p>
+                                    <p><strong>Địa chỉ:</strong> ${areaAddress}</p>
+                                `;
+
+                                // Cuộn đến vị trí của khung chi tiết
+                                document.getElementById('details').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        });
+
                     });
                 });
-            });
-
-            // Ẩn khung sân tập và thông tin chi tiết khi trang được tải
-            document.getElementById('locations-container').style.display = 'none';
         </script>
     </main>
     <div id="footer"></div>

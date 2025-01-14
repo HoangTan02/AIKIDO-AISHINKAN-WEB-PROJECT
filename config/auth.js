@@ -5,13 +5,21 @@ const rolePermissions = {
         'manage-users.html',
         'manage-posts.html',
         'create-post.html',
-        'edit-post.html'
+        'edit-post.html',
+        'manage-areas.html',
+        'manage-districts.html',
+        'create-areas.html',
+        'edit-areas.html'
     ],
     User: [
         'User.html',
         'manage-posts.html',
         'create-post.html',
-        'edit-post.html'
+        'edit-post.html',
+        'manage-areas.html',
+        'manage-districts.html',
+        'create-areas.html',
+        'edit-areas.html'
     ],
 };
 
