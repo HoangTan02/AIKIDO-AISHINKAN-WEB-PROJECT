@@ -22,6 +22,7 @@
         overflow: hidden;
         background-color: #f0f0f0; /* Màu nền nếu không có ảnh */
         border-radius: 8px; /* Thêm bo góc cho container */
+        transition: transform 0.3s ease, filter 0.3s ease; /* Thêm hiệu ứng khi hover ảnh */
     }
 
     #detail-image {
@@ -29,8 +30,14 @@
         height: 100%; /* Đảm bảo ảnh không vượt quá chiều cao */
         object-fit: contain; /* Giữ tỷ lệ ảnh mà không bị cắt xén */
         object-position: center; /* Căn giữa ảnh */
+        border-radius: 18px; /* Bo góc cho ảnh */
+        transition: transform 0.3s ease, filter 0.3s ease; /* Thêm hiệu ứng khi hover ảnh */
     }
-
+    
+    #detail-image:hover {
+        transform: scale(1.5); /* Phóng to một chút khi hover */
+        filter: brightness(1); /* Làm sáng ảnh khi hover */
+    }
 
 
     /* Cải thiện kiểu dáng cho các thông tin chi tiết */
