@@ -146,6 +146,8 @@
         }
 
     
+        let currentImagePath = ''; // Biến lưu trữ imagePath hiện tại
+
         // Hàm tải dữ liệu sân tập từ API và hiển thị lên form
         async function loadAreaData() {
             try {
@@ -155,7 +157,8 @@
                     document.getElementById('area-name').value = area.name;
                     document.getElementById('area-address').value = area.address;
                     document.getElementById('area-description').value = area.description;
-    
+                    currentImagePath = area.imagePath;  // Lưu imagePath hiện tại
+
                     // Tìm districtId trong danh sách districts để lấy tên quận
                     const districtSelect = document.getElementById('area-district');
                     const district = districts.find(d => d.id === area.districtId);  // Tìm quận tương ứng
@@ -170,7 +173,7 @@
                 alert('Có lỗi xảy ra khi tải dữ liệu');
             }
         }
-    
+
         // Hàm gửi dữ liệu chỉnh sửa sân tập lên API
         async function submitForm(event) {
             event.preventDefault();
@@ -200,7 +203,8 @@
                 name,
                 address,
                 district: districtName,  // Gửi tên quận thay vì districtId
-                description
+                description,
+                imagePath: currentImagePath // Thêm imagePath vào payload mà không thay đổi giá trị của nó
             };
             console.log('Payload:', payload); // Log toàn bộ payload
 
@@ -227,6 +231,7 @@
                 alert('Có lỗi xảy ra khi cập nhật');
             }
         }
+
 
 
     
