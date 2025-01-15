@@ -9,18 +9,108 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Thêm Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thêm jQuery trước Bootstrap và Slick Slider -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- Thêm Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <style>
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    
+        .event-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+    
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+    
+        .slick-slider .slick-slide {
+            padding: 10px;
+        }
+    
+        .slick-prev, .slick-next {
+            background-color: #007bff; /* Màu nền */
+            color: white; /* Màu chữ */
+            border: none; /* Bỏ viền */
+            padding: 10px; /* Thêm padding để nút lớn hơn */
+            font-size: 30px; /* Thay đổi kích thước chữ */
+            border-radius: 50%; /* Làm nút thành hình tròn */
+            position: absolute; /* Đặt vị trí tuyệt đối */
+            top: 50%; /* Đặt nút ở giữa theo chiều dọc */
+            transform: translateY(-50%); /* Canh chỉnh chính xác vị trí nút */
+            z-index: 10; /* Đảm bảo nút nằm trên ảnh */
+            opacity: 0.8; /* Độ trong suốt của nút */
+            transition: background-color 0.3s ease, opacity 0.3s ease; /* Hiệu ứng chuyển động */
+            display: flex; /* Sử dụng flex để căn chỉnh mũi tên */
+            justify-content: center; /* Canh giữa mũi tên theo chiều ngang */
+            align-items: center; /* Canh giữa mũi tên theo chiều dọc */
+            width: 50px; /* Đặt chiều rộng của nút */
+            height: 50px; /* Đặt chiều cao của nút */
+        }
+    
+        .slick-prev:hover, .slick-next:hover {
+            background-color: #0056b3; /* Màu nền khi hover */
+            opacity: 1; /* Mất độ trong suốt khi hover */
+        }
+
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+    
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    
+        .card-text {
+            font-size: 1rem;
+            height: 50px; /* Giới hạn chiều cao cho phần text */
+            overflow: hidden; /* Cắt bớt nội dung thừa */
+            text-overflow: ellipsis; /* Thêm dấu ba chấm nếu nội dung bị cắt */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+        }
+    
+        .card a {
+            margin-top: auto;
+        }
+    
+        .card-img-top {
+            width: 100%; /* Đảm bảo ảnh chiếm 100% chiều rộng của card */
+            height: 200px; /* Đảm bảo ảnh có chiều cao cố định */
+            object-fit: cover; /* Cắt bớt phần ảnh không cần thiết */
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div id="header"></div>
     <main>
         <div class="container py-5">
             <h1 class="text-center mb-5">Các Sự Kiện</h1>
-            <div id="eventsList" class="row">
+            <div id="eventsList" class="events-slider">
                 <!-- Các sự kiện sẽ được chèn vào đây bằng JavaScript -->
             </div>
         </div>
     </main>
+
+    <!-- Chỉ cần gọi slick.min.js sau khi dữ liệu đã được tải xong -->
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const eventsList = document.getElementById('eventsList');
@@ -33,24 +123,18 @@
                 if (posts.length === 0) {
                     eventsList.innerHTML = '<p class="text-center">Chưa có sự kiện nào được đăng.</p>';
                 } else {
-                    // Sắp xếp bài viết theo ngày (newest to oldest)
                     posts.sort((a, b) => {
                         const dateA = new Date(a.createdAt);
                         const dateB = new Date(b.createdAt);
-                        
-                        // Sắp xếp theo ngày (newest to oldest)
                         return dateB - dateA;
                     });
 
-                    // Xóa tất cả các bài viết trước khi thêm mới, đảm bảo không trùng lặp khi tải lại trang
                     eventsList.innerHTML = '';
 
-                    // Đảm bảo các bài đăng được hiển thị từ trái sang phải (newest first)
                     for (const post of posts) {
                         const eventElement = document.createElement('div');
-                        eventElement.classList.add('col-md-4', 'mb-4', 'event-item');
-                        
-                        // Chuyển đổi ngày từ createdAt
+                        eventElement.classList.add('event-card');
+
                         const postDate = new Date(post.createdAt);
                         const formattedDate = postDate.toLocaleDateString('vi-VN', {
                             year: 'numeric',
@@ -58,32 +142,74 @@
                             day: 'numeric'
                         });
 
-                        // Lấy nội dung có order = 1 và type = "Text" từ API Contents/Post/{post.id}
                         const contentsResponse = await fetch(`https://localhost:7296/api/Contents/Post/${post.id}`);
                         const contents = await contentsResponse.json();
                         
-                        // Tìm nội dung có order = 1 và type là "Text"
                         const contentOrder1 = contents.find(content => content.order === 0 && content.type === "Text");
                         const contentText = contentOrder1 ? contentOrder1.content : 'Chưa có nội dung cho sự kiện này.';
 
-                        // Tìm nội dung có order = 0 và type là "Image"
-                        const contentOrder0 = contents.find(content => content.order === 0 && content.type === "Image");
-                        const imageUrl = contentOrder0 ? contentOrder0.content : '';  // Nếu có, lấy content làm URL hình ảnh
+                        const imageContents = contents.filter(content => content.order === 0 && content.type === "Image");
+
+                        let imageUrl = '';
+                        if (imageContents.length > 0) {
+                            const contentId = imageContents[0].id;
+                            try {
+                                const imageResponse = await fetch(`https://localhost:7296/api/Contents/GetImage/${contentId}`);
+                                 
+                                if (imageResponse.ok) {
+                                    const imageBlob = await imageResponse.blob();
+                                    imageUrl = URL.createObjectURL(imageBlob);
+                                } else {
+                                    console.error(`Lỗi khi tải hình ảnh từ API: ${imageResponse.statusText}`);
+                                }
+                            } catch (error) {
+                                console.error('Lỗi khi gọi API GetImage:', error);
+                            }
+                        }
+
+                        const defaultImageUrl = 'path/to/default-image.jpg';  // Đường dẫn đến ảnh lỗi (thay thế bằng đường dẫn ảnh bạn muốn sử dụng)
 
                         eventElement.innerHTML = `
                             <div class="card h-100 shadow-sm">
                                 <div class="card-body">
-                                    ${imageUrl ? `<img src="${imageUrl}" alt="Event Image" class="card-img-top" />` : ''} <!-- Hiển thị ảnh nếu có -->
+                                    <img src="${imageUrl || defaultImageUrl}" alt="Event Image" class="card-img-top" />
                                     <h5 class="card-title">${post.title}</h5>
                                     <p><strong>Ngày:</strong> ${formattedDate}</p>
-                                    <p class="card-text"><strong>Nội dung:</strong> ${contentText}</p> <!-- Hiển thị nội dung có order 1 và type = "Text" -->
+                                    <p class="card-text"><strong>Nội dung:</strong> ${contentText}</p>
+                                    <p><strong>Người viết:</strong> ${post.writer}</p> <!-- Thêm dòng này để hiển thị writer -->
                                     <a href="post-details.html?id=${post.id}" class="btn btn-primary">Xem chi tiết</a>
                                 </div>
                             </div>
                         `;
-                        // Thêm bài viết vào cuối danh sách thay vì đầu danh sách để chắc chắn thứ tự bài viết đúng
+
+
                         eventsList.appendChild(eventElement);
                     }
+
+                    // Khởi tạo Slick Slider sau khi các sự kiện đã được thêm vào
+                    $('.events-slider').slick({
+                        infinite: true,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
+                        nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>',
+                        responsive: [
+                            {
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ]
+                    });
                 }
             } catch (error) {
                 console.error('Lỗi khi tải các sự kiện:', error);

@@ -115,6 +115,23 @@
             }
         }
 
+        textarea {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            width: 80%;
+            margin-bottom: 15px;
+            border: 1px solid #BDC3C7;
+            box-sizing: border-box;
+            height: 100px; /* Thêm chiều cao cho textarea */
+        }
+
+        textarea:focus {
+            border-color: #1ABC9C;
+            outline: none;
+        }
+
+
     </style>
 </head>
 <body>
@@ -128,6 +145,9 @@
 
             <label for="area-name">Tên Sân tập:</label>
             <input type="text" id="area-name" required>
+
+            <label for="area-description">Mô tả:</label>
+            <textarea id="area-description" required></textarea>
 
             <label for="area-address">Địa chỉ:</label>
             <input type="text" id="area-address" required>
@@ -174,6 +194,7 @@
                 const selectedDistrict = districtSelect.options[districtSelect.selectedIndex];
                 const districtId = selectedDistrict.value;
                 const districtName = selectedDistrict.textContent;
+                const description = document.getElementById('area-description').value;
 
                 // Tạo dữ liệu sân tập
                 const areaData = {
@@ -181,6 +202,7 @@
                     districtId: districtId,  // ID của quận đã chọn
                     name: document.getElementById('area-name').value,
                     address: document.getElementById('area-address').value,
+                    description: description, // Mô tả của sân tập
                 };
 
                 // Tạo FormData để gửi API
@@ -189,6 +211,7 @@
                 formData.append('districtId', areaData.districtId);  // districtId
                 formData.append('name', areaData.name);  // Tên sân tập
                 formData.append('address', areaData.address);  // Địa chỉ
+                formData.append('description', areaData.description); // Mô tả
                 formData.append('image', areaImageInput.files[0]);  // Hình ảnh
 
                 // Gửi yêu cầu tạo sân tập
@@ -212,6 +235,7 @@
                     console.error('Lỗi khi tạo sân tập:', error);
                     alert('Có lỗi xảy ra, vui lòng thử lại.');
                 });
+
             });
         });
     </script>
