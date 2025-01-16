@@ -218,7 +218,7 @@
                 </tbody>                               
             </table>
         </div>
-        <button class="back-btn" onclick="window.location.href='Admin.html'">Quay lại trang quản lý Admin</button>
+        <button class="back-btn" id="back-btn" window.location.href='Admin.html'">Quay lại trang quản lý</button>
     </div>
 
     <script>
@@ -357,6 +357,24 @@
             }
 
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+                // Lấy vai trò người dùng từ localStorage
+                const userRole = localStorage.getItem('userRole'); 
+
+                // Nút Back Button
+                const backButton = document.getElementById('back-btn');
+
+                // Kiểm tra vai trò và đặt URL cho nút
+                if (userRole === 'Admin') {
+                    backButton.onclick = () => window.location.href = 'Admin.html';
+                } else if (userRole === 'User') {
+                    backButton.onclick = () => window.location.href = 'User.html';
+                } else {
+                    // Nếu không xác định được vai trò, đưa về trang login
+                    backButton.onclick = () => window.location.href = 'Login.html';
+                }
+            });
 
         // Lấy danh sách khu vực khi trang được tải
         getAreas();

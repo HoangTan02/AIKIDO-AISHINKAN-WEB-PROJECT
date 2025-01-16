@@ -27,14 +27,6 @@ main {
     flex: 1; /* Cho phép main chiếm toàn bộ không gian còn lại */
 }
 
-/* Footer */
-footer {
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    position: relative;
-}
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
@@ -317,13 +309,6 @@ header .navbar-nav .nav-item {
     margin: 20px;
 }
 
-/* Footer */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
 
 /* PLACES */
 .city-btn {
