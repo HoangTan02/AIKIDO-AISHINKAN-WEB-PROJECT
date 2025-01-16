@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo tài khoản mới</title>
+    <title>Tạo Tài Khoản</title>
     <style>
-        /* CSS cho toàn bộ trang */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -14,150 +13,224 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #2C3E50; /* Màu nền tối sang trọng */
+            background-color: #b7aec7;
         }
 
-        /* Container chính của form tạo tài khoản */
-        .container {
-            background-color: #34495E; /* Màu nền container đậm và lịch thiệp */
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+        .wrapper {
+            width: 380px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
         }
 
-        h1 {
-            font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-            font-size: 2.2rem;
-            color: #ECF0F1;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        /* Định dạng cho các form input */
-        input[type="text"], input[type="phonenumber"], input[type="password"] {
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            border: 1px solid #BDC3C7;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            background-color: #ECF0F1;
-            color: #2C3E50;
-            transition: border 0.3s, box-shadow 0.3s;
-        }
-
-        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
-            border: 1px solid #3498DB; /* Đổi màu viền khi focus */
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.6); /* Hiệu ứng sáng khi focus */
-        }
-
-        /* Định dạng cho nút tạo tài khoản */
-        button[type="submit"] {
-            width: 100%;
-            padding: 14px;
-            background-color: #3498DB;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1.1rem;
+        .title {
+            font-size: 35px;
             font-weight: 600;
-            transition: background-color 0.3s;
-            margin-top: 20px;
+            text-align: center;
+            line-height: 100px;
+            color: #fff;
+            user-select: none;
+            border-radius: 15px 15px 0 0;
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
         }
 
-        button[type="submit"]:hover {
-            background-color: #2980B9;
+        form {
+            padding: 10px 30px 50px 30px;
         }
 
-        .back-btn {
+        .field {
+            height: 70px;
+            width: 100%;
             margin-top: 20px;
-            padding: 12px 25px;
-            background-color: #f39c12;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .field input {
+            height: 50px;
+            width: 100%;
+            outline: none;
+            font-size: 17px;
+            padding: 0 20px;
+            border: 1px solid lightgrey;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .field input:focus {
+            border-color: #4158d0;
+        }
+
+        .field label {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            color: #999999;
+            font-weight: 400;
+            font-size: 17px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .field input:focus ~ label,
+        .field input:valid ~ label {
+            top: 0%;
+            font-size: 16px;
+            color: #4158d0;
+            background: #fff;
+            transform: translateY(-50%);
+        }
+
+        .field input[type="submit"] {
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
             color: #fff;
             border: none;
             cursor: pointer;
-            border-radius: 6px;
-            font-size: 16px;
-            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
         }
 
-        /* Định dạng cho các thông báo lỗi */
-        .error {
+        .field input[type="submit"]:hover {
+            background: linear-gradient(-135deg, #4158d0, #c850c0);
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        .link-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #4158d0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .link-container a:hover {
+            color: #c850c0;
+            transform: scale(1.1);
+        }
+
+        .error-message {
             color: #e74c3c;
             margin-top: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="wrapper">
+        <div class="title">
+            Tài khoản mới
+        </div>
+        <form id="createAccountForm">
+            <div class="field">
+                <input type="text" id="name" name="name" required>
+                <label>Vai trò + Tên</label>
+            </div>
+            <div class="field">
+                <input type="phonenumber" id="phoneNumber" name="phoneNumber" required>
+                <label>Số điện thoại</label>
+            </div>
+            <div class="field">
+                <input type="password" id="password" name="password" required>
+                <img id="toggle-password" class="eye-icon" src="../images/eye.png" alt="Eye icon">
+                <label>Mật khẩu</label>
+            </div>
 
-    <div class="container">
-        <h1><b>TẠO TÀI KHOẢN</b></h1>
-        <form id="create-user-form">
-            <input type="text" id="name" placeholder="Vai trò + Tên" required>
-            <input type="phonenumber" id="phoneNumber" placeholder="Số điện thoại" required>
-            <input type="password" id="password" placeholder="Mật khẩu" required>
-            <button type="submit">Tạo tài khoản</button>
+            <div class="field">
+                <input type="submit" value="Tạo tài khoản">
+            </div>
+
+            <div class="link-container">
+                <a href="manage-users.html">Quay lại trang quản lý người dùng</a>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
         </form>
-        <div class="error" id="error-message"></div>
-        <!-- Back button -->
-        <button class="back-btn" onclick="window.location.href='manage-users.html'">Quay lại trang quản lý người dùng</button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const API_URL = "https://localhost:7296/api/Accounts/Register";  // Đảm bảo URL API chính xác
 
-        document.getElementById("create-user-form").addEventListener("submit", async function(event) {
+        document.querySelector("#createAccountForm").addEventListener("submit", function (event) {
             event.preventDefault();
+            const name = document.querySelector("#name").value;
+            const phoneNumber = document.querySelector("#phoneNumber").value;
+            const password = document.querySelector("#password").value;
 
-            const name = document.getElementById("name").value;
-            const phoneNumber = document.getElementById("phoneNumber").value;
-            const password = document.getElementById("password").value;
-
-            // Reset error message
-            document.getElementById("error-message").innerHTML = "";
-
-            const accountData = {
-                name: name,
-                phoneNumber: phoneNumber,
-                password: password
-            };
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(accountData),
-                });
-
-                if (response.ok) {
-                    alert("Tạo tài khoản thành công.");
-                    window.location.href = "manage-users.html";  // Chuyển hướng về trang quản lý người dùng
-                } else if (response.status === 409) {
-                    const errorData = await response.text();
-                    document.getElementById("error-message").innerText = errorData;
-                } else {
-                    document.getElementById("error-message").innerText = "Lỗi khi tạo tài khoản. Vui lòng thử lại.";
-                }
-            } catch (error) {
-                document.getElementById("error-message").innerText = "Lỗi kết nối tới API: " + error.message;
-            }
+            createAccount(name, phoneNumber, password);
         });
 
-    </script>
-    
-    <script src="../config/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', checkAccess);
-    </script>
+        async function createAccount(name, phoneNumber, password) {
+            try {
+                const response = await axios.post(API_URL, {
+                    name: name,
+                    phoneNumber: phoneNumber,
+                    password: password
+                });
 
-    
+                console.log(response); // Log toàn bộ phản hồi để kiểm tra
 
+                // Kiểm tra nếu phản hồi thành công (mã trạng thái 201)
+                if (response.status === 201) {
+                    alert("Tạo tài khoản thành công.");
+                    window.location.href = "manage-users.html";  // Chuyển hướng về trang quản lý người dùng
+                } else {
+                    showError("Lỗi khi tạo tài khoản. Vui lòng thử lại.");
+                }
+            } catch (error) {
+                // Xử lý lỗi kết nối hoặc lỗi từ API
+                console.error(error); // Log ra lỗi để kiểm tra
+                if (error.response) {
+                    // Nếu có phản hồi từ API
+                    showError("Lỗi từ API: " + error.response.data.message || error.message);
+                } else {
+                    // Nếu không có phản hồi từ API
+                    showError("Lỗi kết nối tới API: " + error.message);
+                }
+            }
+        }
+
+        function showError(message) {
+            const errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = message;
+        }
+
+
+
+        // Thêm sự kiện click vào icon mắt
+        document.getElementById("toggle-password").addEventListener("click", function () {
+            const passwordField = document.getElementById("password");
+            const type = passwordField.type === "password" ? "text" : "password"; 
+            passwordField.type = type; // Thay đổi loại input
+
+            // Thay đổi hình ảnh icon
+            if (passwordField.type === "password") {
+                this.src = "../images/eye.png"; // Mắt đóng
+            } else {
+                this.src = "../images/eye.png"; // Mắt mở
+            }
+        });
+    </script>
 </body>
 </html>

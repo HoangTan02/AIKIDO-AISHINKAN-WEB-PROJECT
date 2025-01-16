@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập</title>
     <style>
-        /* CSS cho toàn bộ trang */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -14,133 +13,162 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #2C3E50; /* Màu nền tối sang trọng */
+            background-color: #b7aec7;
         }
 
-        /* Container chính của login */
-        .login-container {
-            background-color: #34495E; /* Màu nền container đậm và lịch thiệp */
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        .wrapper {
+            width: 380px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-size: 35px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 100px;
+            color: #fff;
+            user-select: none;
+            border-radius: 15px 15px 0 0;
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
+        }
+
+        form {
+            padding: 10px 30px 50px 30px;
+        }
+
+        .field {
+            height: 70px; /* Tăng chiều cao để tạo khoảng trống thoải mái hơn */
             width: 100%;
-            max-width: 400px;
+            margin-top: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .field input {
+            height: 50px;
+            width: 100%;
+            outline: none;
+            font-size: 17px;
+            padding: 0 20px; /* Đảm bảo padding đều */
+            border: 1px solid lightgrey;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Đảm bảo kích thước chuẩn */
+        }
+
+
+        .field input:focus {
+            border-color: #4158d0;
+        }
+
+        .field label {
+            position: absolute;
+            top: 25px; /* Canh vị trí label */
+            left: 20px;
+            color: #999999;
+            font-weight: 400;
+            font-size: 17px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .field input:focus ~ label,
+        .field input:valid ~ label {
+            top: 0%;
+            font-size: 16px;
+            color: #4158d0;
+            background: #fff;
+            transform: translateY(-50%);
+        }
+
+
+        .field input[type="submit"] {
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            font-weight: 600;
             text-align: center;
         }
 
-        h2 {
-            font-size: 2.2rem;
-            color: #ECF0F1;
-            margin-bottom: 20px;
-            font-weight: 700;
+        .field input[type="submit"]:hover {
+            background: linear-gradient(-135deg, #4158d0, #c850c0);
         }
 
-        /* Định dạng cho các form input */
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            border: 1px solid #BDC3C7;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            background-color: #ECF0F1;
-            color: #2C3E50;
-            transition: border 0.3s, box-shadow 0.3s;
-        }
-
-        input[type="text"]:focus, input[type="password"]:focus {
-            border: 1px solid #3498DB; /* Đổi màu viền khi focus */
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.6); /* Hiệu ứng sáng khi focus */
-        }
-
-        /* Định dạng cho nút đăng nhập */
-        button[type="submit"] {
-            width: 100%;
-            padding: 14px;
-            background-color: #3498DB;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        .eye-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            margin-top: 20px;
+            width: 24px;
+            height: 24px;
         }
 
-        button[type="submit"]:hover {
-            background-color: #2980B9;
-        }
-
-        /* Định dạng cho các liên kết */
         .link-container {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center; /* Căn giữa */
+            align-items: center; /* Căn giữa theo trục dọc */
+            margin-top: 20px; /* Tạo khoảng cách phía trên */
         }
 
         .link-container a {
-            color: #ECF0F1;
+            color: #4158d0; /* Màu xanh tinh tế */
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 16px; /* Kích thước chữ */
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .link-container a:hover {
-            text-decoration: underline;
+            color: #c850c0; /* Đổi màu khi hover */
+            transform: scale(1.1); /* Hiệu ứng phóng to nhẹ */
         }
 
-        /* Định dạng cho các nhãn (labels) */
-        label {
-            display: block;
-            font-size: 1.1rem;
-            color: #ECF0F1;
-            margin-bottom: 8px;
-            text-align: left;
-        }
-
-        /* Định dạng cho các thông báo lỗi */
         .error-message {
             color: #e74c3c;
             margin-top: 10px;
         }
 
-        /* Thêm kiểu cho icon mắt */
-        .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            width: 24px; /* Kích thước hình ảnh */
-            height: 24px; /* Kích thước hình ảnh */
-        }
-
-        .input-container {
-            position: relative;
-        }
     </style>
 </head>
 <body>
-
-    <div class="login-container">
-        <h2>Đăng Nhập</h2>
-        <form id="loginForm">
-            <label for="username">Số điện thoại:</label>
-            <input type="text" id="username" name="phoneNumber" required>
-            
-            <label for="password">Mật khẩu:</label>
-            <div class="input-container">
-                <input type="password" id="password" name="password" required>
-                <img id="toggle-password" class="eye-icon" src="../images/eye.png" alt="Eye icon"> <!-- Thay đổi đường dẫn tới hình ảnh của bạn -->
-            </div>
-            
-            <button type="submit">Đăng Nhập</button>
-        </form>
-        <div class="link-container">
-            <a href="index.html">Quay lại trang chủ</a>
+    <div class="wrapper">
+        <div class="title">
+           Đăng nhập
         </div>
-        <div class="error-message" id="error-message"></div>
-    </div>
+        <form id="loginForm">
+           <div class="field">
+              <input type="text" id="username" name="phoneNumber" required>
+              <label>Số điện thoại:</label>
+           </div>
+           <div class="field">
+              <input type="password" id="password" name="password" required>
+              <img id="toggle-password" class="eye-icon" src="../images/eye.png" alt="Eye icon">
+              <label>Mật khẩu:</label>
+           </div>
 
+           <div class="content">
+           </div>
+
+           <div class="field">
+              <input type="submit" value="Đăng nhập">
+           </div>
+
+           <div class="link-container">
+            <a href="index.html">Quay lại trang chủ</a>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+        </form>
+     </div>
     <!-- CDN Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
