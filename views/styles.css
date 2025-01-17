@@ -1,499 +1,737 @@
-/* Sử dụng biến CSS cho màu sắc */
-:root {
-    --primary-color: #007bff;
-    --secondary-color: #f9f9f9;
-    --text-color: #333;
-}
-
-/* Sử dụng lại bootstrap cho một số phần để giảm code CSS tùy chỉnh */
-html, body {
-    height: 100%; /* Đặt chiều cao cho html và body */
-    margin: 0; /* Loại bỏ margin mặc định */
-}
-
-body {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    color: #333;
-    line-height: 1.8;
-    margin: 0;
-    padding: 0;
-    background-color: #fde67f;
-    display: flex; /* Sử dụng flexbox cho body */
-    flex-direction: column; /* Đặt hướng flex theo chiều dọc */
-    min-height: 100vh;
-}
-
-main {
-    flex: 1; /* Cho phép main chiếm toàn bộ không gian còn lại */
-}
-
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    font-weight: 700;
-    color: #222;
-    margin: 0.5em 0;
-}
-
-a {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #ddd;
-}
-
-/* Thiết lập cho nút nhấn */
-.text-center {
-    display: flex; /* Sử dụng flexbox */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
-    height: 100%; /* Đảm bảo chiều cao của phần tử cha đủ lớn để căn giữa */
-}
-
-.btn-custom {
-    width: auto; /* Cho phép chiều rộng tự động theo nội dung */
-    max-width: 200px; /* Giới hạn chiều rộng tối đa của nút */
-    padding: 10px 20px; /* Điều chỉnh padding để nút không quá to */
-    text-align: center; /* Giữ nội dung ở giữa nút */
-}
-
-.btn {
-    display: inline-block; /* Đặt display là inline-block để bề ngang tự động */
-    padding: 10px 20px; /* Điều chỉnh padding nếu cần */
-    font-size: 1em; /* Kích thước chữ */
-    border: 2px solid #007bff; /* Thay đổi màu đường viền nếu cần */
-    border-radius: 5px; /* Bo góc nếu cần */
-    transition: all 0.3s ease; /* Hiệu ứng chuyển tiếp */
-}
-
-.btn:hover {
-    background-color: #007bff; /* Màu nền khi hover */
-    color: white; /* Màu chữ khi hover */
-}
-
-
-/* Các đoạn văn */
-p {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    font-weight: 400;
-    letter-spacing: 0.5px;
-}
-
-/* Header */
-header {
-    position: fixed; /* Đặt header cố định */
-    top: 0; /* Đưa nó lên trên cùng */
-    left: 0; /* Đưa nó ra bên trái */
-    width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều ngang */
-    z-index: 1000; /* Đảm bảo nó luôn ở trên cùng các phần tử khác */
-    background-color: #ffffff; /* Màu nền của header */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho header */
-}
-
-.header-top {
-    display: flex; /* Sử dụng flexbox để căn giữa */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    padding: 10px 0; /* Thêm padding cho khoảng cách */
-}
-
-/* Để đảm bảo nội dung không bị che khuất bởi header */
-body {
-    padding-top: 210px; /* Điều chỉnh giá trị này nếu cần */
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Sử dụng Bootstrap navbar cho menu */
-header .navbar {
-    width: 110%; /* Đảm bảo navbar chiếm 100% chiều rộng */
-
-}
-
-header .navbar-nav {
-    display: flex;
-    flex-wrap: wrap; /* Thêm dòng này */
-    justify-content: center; /* Căn giữa các mục */
-}
-
-
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    font-size: 3em !important; /* Thay đổi kích thước chữ tại đây */
-    font-weight: bold; /* Thêm chữ in đậm để nổi bật hơn */
-    color: #000000; /* Đặt màu chữ nếu cần */
-    font-family: 'EB Garamond', serif; /* Sử dụng font Garamond */
-}
-.logo {
-    height: 140px; 
-    width: auto; 
-    margin-right: 35px;
-    margin-left: 55px;
-}
-
-
-.navbar-brand:hover {
-    text-decoration: none;
-    color: #000;
-}
-
-header .navbar-nav .nav-item {
-    margin-left: 15px; /* Tăng khoảng cách giữa các mục menu */
-    margin-right: 15px; /* Bạn có thể thêm khoảng cách bên phải nếu muốn */
-}
-
-.navbar-nav .nav-link {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    font-weight: 700; /* In đậm để nổi bật hơn */
-    font-size: 18px; /* Kích thước chữ cho các liên kết */
-    color: #070707; /* Màu văn bản liên kết */
-    text-decoration: none; /* Bỏ gạch chân cho liên kết */
-    transition: color 0.3s, background-color 0.3s; /* Thêm hiệu ứng chuyển màu mượt mà */
-}
-
-/* Khi hover */
-.navbar-nav .nav-link:hover {
-    color: #ffffff; /* Màu chữ khi hover */
-    background-color: #333; /* Màu nền khi hover */
-    border-radius: 5px; /* Bo góc liên kết để tạo hiệu ứng mềm mại */
-    text-decoration: none; /* Đảm bảo không có gạch chân khi hover */
-    padding: 10px 15px; /* Thêm padding để tăng kích thước và tạo cảm giác thoải mái */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ khi hover */
-}
-
-/* Thích ứng thiết bị */
-@media (max-width: 1200px) {
-    .hero h1 {
-        font-size: 2.5em !important;
+    /* Sử dụng biến CSS cho màu sắc */
+    :root {
+        --primary-color: #007bff;
+        --secondary-color: #f9f9f9;
+        --text-color: #333;
     }
-    header .navbar-brand {
-        flex-direction: column; /* Đặt logo và tên theo chiều dọc */
-        align-items: center; /* Căn giữa các mục */
-        font-size: 1.5em !important; /* Thay đổi kích thước chữ tại đây */
-        font-family: 'EB Garamond', serif; /* Sử dụng font Garamond */
+
+    /* Sử dụng lại bootstrap cho một số phần để giảm code CSS tùy chỉnh */
+    html, body {
+        height: 100%; /* Đặt chiều cao cho html và body */
+        margin: 0; /* Loại bỏ margin mặc định */
+    }
+
+    body {
+        font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        color: #333;
+        line-height: 1.8;
+        margin: 0;
+        padding: 0;
+        background-color: #fde67f;
+        display: flex; /* Sử dụng flexbox cho body */
+        flex-direction: column; /* Đặt hướng flex theo chiều dọc */
+        min-height: 100vh;
+    }
+
+    main {
+        flex: 1; /* Cho phép main chiếm toàn bộ không gian còn lại */
+    }
+
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        font-weight: 700;
+        color: #222;
+        margin: 0.5em 0;
+    }
+
+    a {
+        font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #ddd;
+    }
+
+    /* Thiết lập cho nút nhấn */
+    .text-center {
+        display: flex; /* Sử dụng flexbox */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+        height: 100%; /* Đảm bảo chiều cao của phần tử cha đủ lớn để căn giữa */
+    }
+
+    .btn-custom {
+        width: auto; /* Cho phép chiều rộng tự động theo nội dung */
+        max-width: 200px; /* Giới hạn chiều rộng tối đa của nút */
+        padding: 10px 20px; /* Điều chỉnh padding để nút không quá to */
+        text-align: center; /* Giữ nội dung ở giữa nút */
+    }
+
+    .btn {
+        display: inline-block; /* Đặt display là inline-block để bề ngang tự động */
+        padding: 10px 20px; /* Điều chỉnh padding nếu cần */
+        font-size: 1em; /* Kích thước chữ */
+        border: 2px solid #007bff; /* Thay đổi màu đường viền nếu cần */
+        border-radius: 5px; /* Bo góc nếu cần */
+        transition: all 0.3s ease; /* Hiệu ứng chuyển tiếp */
+    }
+
+    .btn:hover {
+        background-color: #007bff; /* Màu nền khi hover */
+        color: white; /* Màu chữ khi hover */
+    }
+
+
+    /* Các đoạn văn */
+    p {
+        font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+
+    /* Header */
+    header {
+        position: fixed; /* Đặt header cố định */
+        top: 0; /* Đưa nó lên trên cùng */
+        left: 0; /* Đưa nó ra bên trái */
+        width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều ngang */
+        z-index: 1000; /* Đảm bảo nó luôn ở trên cùng các phần tử khác */
+        background-color: #ffffff; /* Màu nền của header */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho header */
+    }
+
+    .header-top {
+        display: flex; /* Sử dụng flexbox để căn giữa */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        padding: 10px 0; /* Thêm padding cho khoảng cách */
+    }
+
+    /* Để đảm bảo nội dung không bị che khuất bởi header */
+    body {
+        padding-top: 210px; /* Điều chỉnh giá trị này nếu cần */
+    }
+
+    header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Sử dụng Bootstrap navbar cho menu */
+    header .navbar {
+        width: 110%; /* Đảm bảo navbar chiếm 100% chiều rộng */
 
     }
-    
+
     header .navbar-nav {
         display: flex;
-        flex-direction: column; /* Đặt các mục menu theo chiều dọc */
-        align-items: left; /* Căn giữa các mục */
+        flex-wrap: wrap; /* Thêm dòng này */
+        justify-content: center; /* Căn giữa các mục */
     }
 
-    .navbar-toggler {
-        width: 100%; /* Chiều rộng 100% */
-        padding: 10px; /* Thêm padding cho nút */
-        background-color: #333; /* Màu nền */
-        border: none; /* Bỏ viền */
-        color: #fff; /* Màu chữ */
-        font-weight: bold; /* Chữ in đậm */
-        font-size: 1.2em; /* Kích thước chữ */
-        display: flex; /* Sử dụng flexbox để căn giữa chữ */
-        justify-content: left; /* Căn giữa chữ "Menu" */
-        align-items: center; /* Căn giữa theo chiều dọc */
+
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        font-size: 3em !important; /* Thay đổi kích thước chữ tại đây */
+        font-weight: bold; /* Thêm chữ in đậm để nổi bật hơn */
+        color: #000000; /* Đặt màu chữ nếu cần */
+        font-family: 'EB Garamond', serif; /* Sử dụng font Garamond */
+    }
+    .logo {
+        height: 140px; 
+        width: auto; 
+        margin-right: 35px;
+        margin-left: 55px;
+    }
+
+
+    .navbar-brand:hover {
+        text-decoration: none;
+        color: #000;
+    }
+
+    header .navbar-nav .nav-item {
+        margin-left: 15px; /* Tăng khoảng cách giữa các mục menu */
+        margin-right: 15px; /* Bạn có thể thêm khoảng cách bên phải nếu muốn */
+    }
+
+    .navbar-nav .nav-link {
         font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        font-weight: 700; /* In đậm để nổi bật hơn */
+        font-size: 18px; /* Kích thước chữ cho các liên kết */
+        color: #070707; /* Màu văn bản liên kết */
+        text-decoration: none; /* Bỏ gạch chân cho liên kết */
+        transition: color 0.3s, background-color 0.3s; /* Thêm hiệu ứng chuyển màu mượt mà */
     }
 
-    .navbar-toggler .menu-text {
-        margin-left: 15px; /* Khoảng cách giữa biểu tượng và chữ "Menu" */
+    /* Khi hover */
+    .navbar-nav .nav-link:hover {
+        color: #ffffff; /* Màu chữ khi hover */
+        background-color: #333; /* Màu nền khi hover */
+        border-radius: 5px; /* Bo góc liên kết để tạo hiệu ứng mềm mại */
+        text-decoration: none; /* Đảm bảo không có gạch chân khi hover */
+        padding: 10px 15px; /* Thêm padding để tăng kích thước và tạo cảm giác thoải mái */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ khi hover */
     }
 
-        /* Khi hover */
-        .navbar-toggler:hover {
-            background-color: none; /* Màu nền khi hover */
+    /* Thích ứng thiết bị */
+    @media (max-width: 1200px) {
+        .hero h1 {
+            font-size: 2.5em !important;
+        }
+        header .navbar-brand {
+            flex-direction: column; /* Đặt logo và tên theo chiều dọc */
+            align-items: center; /* Căn giữa các mục */
+            font-size: 1.5em !important; /* Thay đổi kích thước chữ tại đây */
+            font-family: 'EB Garamond', serif; /* Sử dụng font Garamond */
+
+        }
+        
+        header .navbar-nav {
+            display: flex;
+            flex-direction: column; /* Đặt các mục menu theo chiều dọc */
+            align-items: left; /* Căn giữa các mục */
+        }
+
+        .navbar-toggler {
+            width: 100%; /* Chiều rộng 100% */
+            padding: 10px; /* Thêm padding cho nút */
+            background-color: #333; /* Màu nền */
+            border: none; /* Bỏ viền */
+            color: #fff; /* Màu chữ */
+            font-weight: bold; /* Chữ in đậm */
+            font-size: 1.2em; /* Kích thước chữ */
+            display: flex; /* Sử dụng flexbox để căn giữa chữ */
+            justify-content: left; /* Căn giữa chữ "Menu" */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        }
+
+        .navbar-toggler .menu-text {
+            margin-left: 15px; /* Khoảng cách giữa biểu tượng và chữ "Menu" */
+        }
+
+            /* Khi hover */
+            .navbar-toggler:hover {
+                background-color: none; /* Màu nền khi hover */
+        }
+
+        .navbar-nav {
+                display: none; /* Ẩn menu điều hướng */
+        }
+        .container {
+            padding-top: 40px !important; /* Hoặc margin-top */
+        }
     }
 
-    .navbar-nav {
-            display: none; /* Ẩn menu điều hướng */
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 1.5em !important;
+        }
+
+        .featured .container {
+            flex-direction: column;
+        }
+
+        .featured-item {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .container {
+            padding-top: 40px !important; /* Hoặc margin-top */
+        }
     }
-    .container {
-        padding-top: 40px !important; /* Hoặc margin-top */
-    }
-}
 
 
-@media (max-width: 768px) {
+    /* Hero */
+    .hero {
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+        text-align: center;
+        padding: 0; /* Loại bỏ padding trên/dưới để video full screen */
+        height: 75vh; /* Thiết lập chiều cao của hero là 100% chiều cao màn hình */
+    }
+
+    .hero video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Đảm bảo video phủ đầy khu vực hero */
+        z-index: -1; /* Video nằm dưới nội dung */
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        height: 100%; /* Đảm bảo nội dung nằm trong chiều cao hero */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Đặt nội dung vào giữa hero */
+    }
+
     .hero h1 {
-        font-size: 1.5em !important;
+        font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
+        font-weight: 900;
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        color: #fffefe;
+        text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        white-space: nowrap; /* Ngăn ngừa xuống dòng */
+    }
+
+    .hero p {
+        font-size: 1.5em;
+        color: #ffffff;
+    }
+
+    .featured {
+        padding: 40px 20px;
     }
 
     .featured .container {
-        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .featured-item {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex: 1 1 calc(50% - 40px);
+        margin: 20px;
+    }
+
+
+    /* PLACES */
+    .city-btn {
         width: 100%;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    #location-list p {
+        font-size: 2em;
+        color: #000000;
+        font-weight: bold !important;
+        font-weight: 700;
+    }
+
+    .location-item {
+        font-size: 1.2em;
         margin: 10px 0;
+        color: #080808;
     }
+
+    #locations {
+        padding: 0;
+        list-style: none;
+
+    }
+
+    #locations li {
+        background-color: #f9f9f9;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Places */
+    .row-area {
+        display: flex;
+        flex-direction: row; /* Đổi thành cột ngang nếu bạn muốn các khu vực hiển thị bên cạnh nhau */
+        flex-wrap: wrap; /* Cho phép các phần tử tự động xuống dòng nếu không đủ chỗ */
+        justify-content: center; /* Căn giữa các khu vực */
+        margin: 20px 0; /* Tạo khoảng cách trên và dưới */
+        gap: 15px; /* Khoảng cách giữa các khu vực */
+        font-weight: 700;
+        font-weight: bold !important;
+    }
+
     .container {
-        padding-top: 40px !important; /* Hoặc margin-top */
+        margin: auto;
+        max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+        padding: 20px;
+        margin-top: 20px; /* Điều chỉnh khoảng cách cho container */
+        z-index: 1; /* Đảm bảo nội dung không bị che bởi các thành phần khác */
+        flex-grow: 1; /* Đảm bảo phần nội dung chiếm hết không gian còn lại */
     }
-}
+
+    .container-area {
+        display: flex;              /* Sử dụng Flexbox để sắp xếp các khu vực */
+        flex-wrap: wrap;           /* Cho phép các khu vực gói lại */
+        gap: 20px;                 /* Khoảng cách giữa các khu vực */
+        padding: 20px;             /* Padding cho container */
+        background-color: #f0f0f0; /* Màu nền cho container */
+        border-radius: 8px;        /* Bo góc cho container */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho container */
+    }
+
+    .area:hover {
+        transform: scale(1.05);     /* Phóng to khi hover */
+    }
+
+    .areas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Khoảng cách giữa các khung area */
+        padding: 20px;
+    }
+
+    .area {
+        width: 10% !important; /* Điều chỉnh chiều rộng theo ý bạn */
+        background-color: #f9f9f9; /* Màu nền cho khung area */
+        border: 2px solid #000000; /* Viền màu xanh */
+        border-radius: 8px; /* Bo góc */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+        padding: 10px;
+        transition: transform 0.3s; /* Hiệu ứng khi hover */
+        flex: 1 1 100px; /* Đảm bảo khung area có kích thước tối thiểu */
+        max-width: 1; /* Giới hạn chiều rộng tối đa */
+
+        display: flex;          /* Thêm thuộc tính này */
+        align-items: center;    /* Căn giữa theo chiều dọc */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        text-align: center;      /* Căn giữa văn bản */
+    }
 
 
-/* Hero */
-.hero {
-    position: relative;
-    overflow: hidden;
-    color: #fff;
-    text-align: center;
-    padding: 0; /* Loại bỏ padding trên/dưới để video full screen */
-    height: 75vh; /* Thiết lập chiều cao của hero là 100% chiều cao màn hình */
-}
+    .area:hover {
+        transform: scale(1.05); /* Phóng to khi hover */
+    }
 
-.hero video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Đảm bảo video phủ đầy khu vực hero */
-    z-index: -1; /* Video nằm dưới nội dung */
-}
+    .locations, .details {
+        transition: opacity 0.5s ease;
+    }
 
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    height: 100%; /* Đảm bảo nội dung nằm trong chiều cao hero */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Đặt nội dung vào giữa hero */
-}
+    .locations {
+        display: none; /* Ẩn các sân tập mặc định */
+        margin-top: 5px; /* Khoảng cách giữa các khu vực và khung sân tập */
+        display: flex;          /* Thêm thuộc tính này */
+        align-items: center;    /* Căn giữa theo chiều dọc */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        text-align: center;      /* Căn giữa văn bản */
+    }
 
-.hero h1 {
-    font-family: 'Mali', sans-serif; /* Sử dụng font Mali */
-    font-weight: 900;
-    font-size: 3.5em;
-    margin-bottom: 20px;
-    color: #fffefe;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
-    text-align: center;
-    white-space: nowrap; /* Ngăn ngừa xuống dòng */
-}
+    .location {
+        background-color: #e7f3ff; /* Màu nền cho địa chỉ */
+        border: 1px solid #000000; /* Viền địa chỉ */
+        border-radius: 4px; /* Bo góc */
+        padding: 10px;
+        margin: 5px 0; /* Khoảng cách giữa các địa chỉ */
+        transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+    }
 
-.hero p {
-    font-size: 1.5em;
-    color: #ffffff;
-}
+    .location:hover {
+        background-color: #d1e7ff; /* Màu nền khi hover */
+    }
 
-.featured {
-    padding: 40px 20px;
-}
+    #details {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        height: 500px;
+    }
 
-.featured .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+    #detail-container {
+        display: flex;          /* Sử dụng Flexbox để sắp xếp */
+        align-items: flex-start; /* Căn chỉnh theo chiều dọc */
+        margin-top: 20px;      /* Khoảng cách từ các phần tử phía trên */
+    }
 
-.featured-item {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1 1 calc(50% - 40px);
-    margin: 20px;
-}
+    #detail-image {
+        flex: 1;               /* Chiếm 1 phần của không gian */
+        margin-right: 20px;   /* Khoảng cách giữa hình ảnh và văn bản */
+        width: 30% !important;
+        float: left;
+    }
 
+    #detail-text {
+        flex: 2;               /* Chiếm 2 phần không gian, nếu muốn */
+    }
 
-/* PLACES */
-.city-btn {
-    width: 100%;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
+    /*Media*/
+    .social-icons {
+        position: fixed;
+        top: 50%; /* Đặt icons giữa màn hình dọc */
+        right: 0; /* Gắn vào lề trái */
+        transform: translateY(-50%); /* Điều chỉnh để giữ các icons đúng vị trí giữa */
+        display: flex;
+        flex-direction: column; /* Sắp xếp các biểu tượng theo chiều dọc */
+        gap: 5px; /* Khoảng cách giữa các biểu tượng */
+        z-index: 1000; /* Đảm bảo chúng nằm trên các phần tử khác */
+    }
 
-#location-list p {
-    font-size: 2em;
-    color: #000000;
-    font-weight: bold !important;
-    font-weight: 700;
-}
+    .social-icons a {
+        display: block;
+        margin: 5px 0;
+    }
 
-.location-item {
-    font-size: 1.2em;
-    margin: 10px 0;
-    color: #080808;
-}
+    .social-icons img {
+        width: 40px; /* Điều chỉnh kích thước biểu tượng theo ý bạn */
+        height: auto;
+    }
 
-#locations {
-    padding: 0;
-    list-style: none;
+    .social-icon:hover {
+        transform: scale(1.2); /* Tăng kích thước khi hover */
+        color: #007bff; /* Màu chữ khi hover */
+    }
 
-}
+    /*About*/
+    .founder{
+        height: 340px; 
+        width: auto; 
+        margin-right: 35px;
+        margin-bottom: 20px;
+        border: 1px solid;
+        border-radius: 5px;
+    }
 
-#locations li {
-    background-color: #f9f9f9;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+    .snow-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 9999;
+    }
+    
+    .snowflake {
+        position: absolute;
+        top: -50px;
+        width: 30px; /* Kích thước bông tuyết */
+        height: 30px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        animation: fall linear infinite;
+        opacity: 0.9;
+    }
+    
+    /* Hiệu ứng rơi */
+    @keyframes fall {
+        0% {
+            transform: translateY(0) translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) translateX(calc(10vw - 5vw));
+            opacity: 0.3;
+        }
+    }
+    
+    
 
-/* Places */
-.row-area {
-    display: flex;
-    flex-direction: row; /* Đổi thành cột ngang nếu bạn muốn các khu vực hiển thị bên cạnh nhau */
-    flex-wrap: wrap; /* Cho phép các phần tử tự động xuống dòng nếu không đủ chỗ */
-    justify-content: center; /* Căn giữa các khu vực */
-    margin: 20px 0; /* Tạo khoảng cách trên và dưới */
-    gap: 15px; /* Khoảng cách giữa các khu vực */
-    font-weight: 700;
-    font-weight: bold !important;
-}
+    .firework-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 9999;
+    }
+    
+    .firework {
+        position: absolute;
+        top: -50px;
+        width: 40px; /* Kích thước icon */
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        animation: firework-fall linear infinite;
+        opacity: 0.9;
+    }
+    
+    /* Hiệu ứng rơi */
+    @keyframes firework-fall {
+        0% {
+            transform: translateY(0) translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) translateX(calc(10vw - 5vw));
+            opacity: 0.3;
+        }
+    }
+    
+    
+    .new-year-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff235;
+        color: #f00000;
+        padding: 3% 5%;
+        border-radius: 15px;
+        font-size: clamp(1.2rem, 2.5vw, 2rem); /* Kích thước chữ thích ứng */
+        font-weight: bold;
+        text-align: center;
+        z-index: 10000;
+        box-shadow: 0 5px 15px rgba(255, 75, 43, 0.6);
+        animation: message-pop-in 1s ease-out, fade-in-out 8s ease-in-out forwards;
+        max-width: 90%; /* Giới hạn chiều rộng */
+        line-height: 1.5; /* Khoảng cách dòng để chữ thoáng hơn */
+        word-wrap: break-word; /* Chia dòng nếu chữ dài */
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    
+    /* Media queries để điều chỉnh thêm */
+    @media (max-width: 768px) {
+        .new-year-message {
+            padding: 4% 6%;
+            font-size: clamp(1rem, 2vw, 1.5rem); /* Giảm kích thước chữ trên màn hình vừa */
+            border-radius: 10px; /* Thu nhỏ viền bo tròn */
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .new-year-message {
+            padding: 5% 8%; /* Tăng padding để chữ cân đối hơn */
+            font-size: 1rem; /* Kích thước chữ nhỏ hơn */
+            border-radius: 8px;
+        }
+    }
+    
+    /* Hiệu ứng thông báo xuất hiện */
+    @keyframes message-pop-in {
+        0% {
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0;
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+    
+    /* Hiệu ứng mờ dần */
+    @keyframes fade-in-out {
+        0% {
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    
+    
+    /* Thêm hiệu ứng sao lấp lánh xung quanh */
+    .new-year-message::before,
+    .new-year-message::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: calc(100% + 20px);
+        height: calc(100% + 20px);
+        border-radius: 20px;
+        animation: glow-effect 3s infinite;
+    }
+    
+    .new-year-message::after {
+        top: auto;
+        bottom: -10px;
+        left: auto;
+        right: -10px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(255, 75, 43, 0));
+    }
+    
 
-.container {
-    margin: auto;
-    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
-    padding: 20px;
-    margin-top: 20px; /* Điều chỉnh khoảng cách cho container */
-    z-index: 1; /* Đảm bảo nội dung không bị che bởi các thành phần khác */
-    flex-grow: 1; /* Đảm bảo phần nội dung chiếm hết không gian còn lại */
-}
-
-.container-area {
-    display: flex;              /* Sử dụng Flexbox để sắp xếp các khu vực */
-    flex-wrap: wrap;           /* Cho phép các khu vực gói lại */
-    gap: 20px;                 /* Khoảng cách giữa các khu vực */
-    padding: 20px;             /* Padding cho container */
-    background-color: #f0f0f0; /* Màu nền cho container */
-    border-radius: 8px;        /* Bo góc cho container */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho container */
-}
-
-.area:hover {
-    transform: scale(1.05);     /* Phóng to khi hover */
-}
-
-.areas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Khoảng cách giữa các khung area */
-    padding: 20px;
-}
-
-.area {
-    width: 10% !important; /* Điều chỉnh chiều rộng theo ý bạn */
-    background-color: #f9f9f9; /* Màu nền cho khung area */
-    border: 2px solid #000000; /* Viền màu xanh */
-    border-radius: 8px; /* Bo góc */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-    padding: 10px;
-    transition: transform 0.3s; /* Hiệu ứng khi hover */
-    flex: 1 1 100px; /* Đảm bảo khung area có kích thước tối thiểu */
-    max-width: 1; /* Giới hạn chiều rộng tối đa */
-
-    display: flex;          /* Thêm thuộc tính này */
-    align-items: center;    /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    text-align: center;      /* Căn giữa văn bản */
-}
-
-
-.area:hover {
-    transform: scale(1.05); /* Phóng to khi hover */
-}
-
-.locations, .details {
-    transition: opacity 0.5s ease;
-}
-
-.locations {
-    display: none; /* Ẩn các sân tập mặc định */
-    margin-top: 5px; /* Khoảng cách giữa các khu vực và khung sân tập */
-    display: flex;          /* Thêm thuộc tính này */
-    align-items: center;    /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    text-align: center;      /* Căn giữa văn bản */
-}
-
-.location {
-    background-color: #e7f3ff; /* Màu nền cho địa chỉ */
-    border: 1px solid #000000; /* Viền địa chỉ */
-    border-radius: 4px; /* Bo góc */
-    padding: 10px;
-    margin: 5px 0; /* Khoảng cách giữa các địa chỉ */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
-}
-
-.location:hover {
-    background-color: #d1e7ff; /* Màu nền khi hover */
-}
-
-#details {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    height: 500px;
-}
-
-#detail-container {
-    display: flex;          /* Sử dụng Flexbox để sắp xếp */
-    align-items: flex-start; /* Căn chỉnh theo chiều dọc */
-    margin-top: 20px;      /* Khoảng cách từ các phần tử phía trên */
-}
-
-#detail-image {
-    flex: 1;               /* Chiếm 1 phần của không gian */
-    margin-right: 20px;   /* Khoảng cách giữa hình ảnh và văn bản */
-    width: 30% !important;
-    float: left;
-}
-
-#detail-text {
-    flex: 2;               /* Chiếm 2 phần không gian, nếu muốn */
-}
-
-/*Media*/
-.social-icons {
-    position: fixed;
-    top: 50%; /* Đặt icons giữa màn hình dọc */
-    right: 0; /* Gắn vào lề trái */
-    transform: translateY(-50%); /* Điều chỉnh để giữ các icons đúng vị trí giữa */
-    display: flex;
-    flex-direction: column; /* Sắp xếp các biểu tượng theo chiều dọc */
-    gap: 5px; /* Khoảng cách giữa các biểu tượng */
-    z-index: 1000; /* Đảm bảo chúng nằm trên các phần tử khác */
-}
-
-.social-icons a {
-    display: block;
-    margin: 5px 0;
-}
-
-.social-icons img {
-    width: 40px; /* Điều chỉnh kích thước biểu tượng theo ý bạn */
-    height: auto;
-}
-
-.social-icon:hover {
-    transform: scale(1.2); /* Tăng kích thước khi hover */
-    color: #007bff; /* Màu chữ khi hover */
-}
-
-/*About*/
-.founder{
-    height: 340px; 
-    width: auto; 
-    margin-right: 35px;
-    margin-bottom: 20px;
-    border: 1px solid;
-    border-radius: 5px;
-}
-
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        60% {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        60% {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    .countdown-dialog {
+        position: fixed;
+        top: 20px; /* Khoảng cách từ trên cùng */
+        left: 20px; /* Khoảng cách từ cạnh trái */
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 9999;
+        font-size: 18px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        transition: all 0.5s ease-in-out;
+    }
+    
+    .countdown-dialog .highlight {
+        font-weight: bold;
+        color: gold;
+    }
+    
+    .countdown-dialog .footer {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #ccc;
+    }
+    
+    /* Kiểu cho nút đóng */
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    
+    
