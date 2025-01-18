@@ -57,7 +57,7 @@ function showFireworkEffect() {
     fireworkContainer.classList.add('firework-container');
     document.body.appendChild(fireworkContainer);
 
-    // Danh sách các icon pháo hoa và lì xì
+    // Danh sách các icon và lì xì
     const fireworkIcons = [
         '../images/red-envelope.png',
         '../images/red-envelope1.png',

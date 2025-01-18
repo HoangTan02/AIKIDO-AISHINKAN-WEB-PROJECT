@@ -12,21 +12,26 @@
             color: #fff;
             background: #34495E;
             height: 100vh;
-            overflow: hidden;
-            position: relative;
-            display: flex;
+            overflow: hidden; /* Không cho phép tràn */
+            display: flex; /* Căn giữa nội dung */
             justify-content: center;
             align-items: center;
         }
 
         .container {
-            width: 90%;
-            max-width: 1200px;
-            padding: 30px;
+            width: 90%; /* Đảm bảo chiều rộng vừa màn hình */
+            max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+            height: auto; /* Để chiều cao tự động */
+            max-height: calc(100vh - 40px); /* Giới hạn chiều cao (trừ padding trên dưới) */
+            padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             text-align: center;
+            box-sizing: border-box; /* Đảm bảo padding không làm tràn */
+            overflow-y: auto; /* Cuộn nếu nội dung vượt quá chiều cao */
         }
+
+
 
         h1 {
             font-size: 36px;
@@ -44,16 +49,18 @@
         }
 
         .table-container {
-            max-height: 500px;
-            overflow-y: auto;
+            max-height: calc(100vh - 100px); /* Giới hạn chiều cao bên trong container */
+            overflow-y: auto; /* Cho phép cuộn dọc */
             margin-top: 20px;
         }
+
 
         .users-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 30px;
             color: #fff;
+            overflow-x: auto;
         }
 
         .users-table img {
@@ -205,7 +212,55 @@
         .upload-input {
             display: none;
         }
+        /* Mobile (màn hình nhỏ) */
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
 
+            .container {
+                width: 95%;
+                padding: 15px;
+                max-height: calc(100vh - 20px); /* Giới hạn chiều cao */
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .users-table th, .users-table td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .button, .back-btn, .edit-btn, .update-btn, .delete-btn {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+        }
+
+        /* Tablet (màn hình trung bình) */
+        @media (min-width: 601px) and (max-width: 1024px) {
+            body {
+                font-size: 16px;
+            }
+
+            .container {
+                width: 95%;
+                padding: 20px;
+                max-height: calc(100vh - 30px); /* Giới hạn chiều cao */
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .users-table th, .users-table td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>

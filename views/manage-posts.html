@@ -7,24 +7,23 @@
     <style>
         /* General styles for the page */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
             color: #fff;
             background: #34495E;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden; /* Ẩn thanh cuộn ngang nếu có */
         }
         
         /* Mobile (dưới 600px) */
         @media (max-width: 600px) {
             .container {
+                width: 95%; /* Chiều rộng gần sát màn hình */
                 padding: 20px;
-                width: 100%;
             }
 
             h1 {
@@ -57,8 +56,8 @@
         /* Tablet (600px - 1024px) */
         @media (min-width: 601px) and (max-width: 1024px) {
             .container {
-                padding: 30px;
                 width: 90%;
+                padding: 25px;
             }
 
             h1 {
@@ -92,13 +91,11 @@
 
         /* Main container */
         .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 1000px;
-            width: 90%; /* Giới hạn chiều rộng container */
+            position: relative; /* Đổi từ absolute để tránh bị tràn */
+            max-width: 1000px; /* Giới hạn chiều rộng tối đa */
+            width: 90%; /* Chiều rộng linh hoạt theo màn hình */
             padding: 30px;
+            margin: 0 auto; /* Căn giữa ngang */
             z-index: 1;
             text-align: center;
             background-color: rgba(52, 152, 219, 0.1);
@@ -107,6 +104,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-sizing: border-box; /* Đảm bảo padding không làm tràn chiều rộng */
         }
 
         /* Title */
