@@ -322,7 +322,7 @@
 
         async function fetchPostContent() {
             try {
-                const response = await fetch(`https://localhost:7296/api/Contents/Post/${postId}`);
+                const response = await fetch(`https://publicapi.twm420.com/api/Contents/Post/${postId}`);
                 const contents = await response.json();
 
                 const contentListDiv = document.getElementById('content-list');
@@ -362,12 +362,12 @@
                             } else if (content.type === 'Image') {
                                 const imageContent = document.createElement('img');
                                 imageContent.id = `content-image-${content.id}`;
-                                imageContent.src = `https://localhost:7296/api/Contents/GetImage/${content.id}`;
+                                imageContent.src = `https://publicapi.twm420.com/api/Contents/GetImage/${content.id}`;
                                 contentDiv.appendChild(imageContent);
                             } else if (content.type === 'Video') {
                                 const videoContent = document.createElement('video');
                                 videoContent.id = `content-video-${content.id}`;
-                                videoContent.src = `https://localhost:7296/api/Contents/Play/${content.content}`;
+                                videoContent.src = `https://publicapi.twm420.com/api/Contents/Play/${content.content}`;
                                 videoContent.controls = true;
                                 contentDiv.appendChild(videoContent);
                             }
@@ -404,7 +404,7 @@
         }
 
         async function editContent(content) {
-            const apiBaseUrl = 'https://localhost:7296/api/Contents';
+            const apiBaseUrl = 'https://publicapi.twm420.com/api/Contents';
 
             if (content.type === 'Text') {
                 // Tạo một modal để chỉnh sửa nội dung
@@ -555,7 +555,7 @@
             const confirmDelete = confirm(`Bạn có chắc chắn muốn xóa nội dung này không?`);
             if (confirmDelete) {
                 try {
-                    const response = await fetch(`https://localhost:7296/api/Contents/DeleteContent/${content.id}`, {
+                    const response = await fetch(`https://publicapi.twm420.com/api/Contents/DeleteContent/${content.id}`, {
                         method: 'DELETE',
                     });
 
@@ -579,7 +579,7 @@
             if (newOrder !== null && !isNaN(newOrder)) {
                 content.order = parseInt(newOrder);
                 try {
-                    const response = await fetch(`https://localhost:7296/api/Contents/${content.id}`, {
+                    const response = await fetch(`https://publicapi.twm420.com/api/Contents/${content.id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -608,7 +608,7 @@
 
         async function createText() {
             try {
-                const response = await fetch(`https://localhost:7296/api/Contents/AddText`, {
+                const response = await fetch(`https://publicapi.twm420.com/api/Contents/AddText`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -645,7 +645,7 @@
                     formData.append('postId', postId);
 
                     try {
-                        const response = await fetch(`https://localhost:7296/api/Contents/AddImage?postId=${postId}`, {
+                        const response = await fetch(`https://publicapi.twm420.com/api/Contents/AddImage?postId=${postId}`, {
                             method: 'POST',
                             body: formData,  // Gửi dữ liệu dưới dạng FormData
                         });
@@ -681,7 +681,7 @@
                     formData.append('postId', postId);
 
                     try {
-                        const response = await fetch(`https://localhost:7296/api/Contents/AddVideo?postId=${postId}`, {
+                        const response = await fetch(`https://publicapi.twm420.com/api/Contents/AddVideo?postId=${postId}`, {
                             method: 'POST',
                             body: formData,  // Gửi dữ liệu dưới dạng FormData
                         });

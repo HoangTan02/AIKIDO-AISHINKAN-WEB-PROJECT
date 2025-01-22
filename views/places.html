@@ -110,7 +110,7 @@
         
         <script>
            // Lấy danh sách các quận từ API
-            fetch('https://localhost:7296/api/Districts')
+            fetch('https://publicapi.twm420.com/api/Districts')
                 .then(response => response.json())
                 .then(districts => {
                     const districtsContainer = document.getElementById('districts-container');
@@ -138,7 +138,7 @@
                             document.getElementById('detail-text').innerHTML = ''; // Xóa thông tin chi tiết
 
                             // Lấy danh sách sân tập
-                            fetch(`https://localhost:7296/api/Areas`)
+                            fetch(`https://publicapi.twm420.com/api/Areas`)
                                 .then(response => response.json())
                                 .then(areas => {
                                     // Lọc các sân tập thuộc khu vực có tên trùng với tên quận
@@ -152,7 +152,7 @@
                                             locElement.innerText = area.name;
                                             locElement.setAttribute('data-address', area.address);
                                             locElement.setAttribute('data-description', area.description);
-                                            locElement.setAttribute('data-image', `https://localhost:7296/api/Areas/Image/${area.id}`); // Lấy hình ảnh từ API
+                                            locElement.setAttribute('data-image', `https://publicapi.twm420.com/api/Areas/Image/${area.id}`); // Lấy hình ảnh từ API
                                             locElement.setAttribute('data-id', area.id); // Lưu ID để khi click vào sẽ lấy chi tiết
                                             locationsContainer.appendChild(locElement);
                                         });

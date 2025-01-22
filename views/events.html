@@ -117,7 +117,7 @@
             
             try {
                 // Lấy dữ liệu từ API
-                const response = await fetch('https://localhost:7296/api/Posts');
+                const response = await fetch('https://publicapi.twm420.com/api/Posts');
                 const posts = await response.json();
 
                 if (posts.length === 0) {
@@ -142,7 +142,7 @@
                             day: 'numeric'
                         });
 
-                        const contentsResponse = await fetch(`https://localhost:7296/api/Contents/Post/${post.id}`);
+                        const contentsResponse = await fetch(`https://publicapi.twm420.com/api/Contents/Post/${post.id}`);
                         const contents = await contentsResponse.json();
                         
                         const contentOrder1 = contents.find(content => content.order === 0 && content.type === "Text");
@@ -154,7 +154,7 @@
                         if (imageContents.length > 0) {
                             const contentId = imageContents[0].id;
                             try {
-                                const imageResponse = await fetch(`https://localhost:7296/api/Contents/GetImage/${contentId}`);
+                                const imageResponse = await fetch(`https://publicapi.twm420.com/api/Contents/GetImage/${contentId}`);
                                  
                                 if (imageResponse.ok) {
                                     const imageBlob = await imageResponse.blob();

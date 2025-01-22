@@ -168,7 +168,7 @@
             const areaImageInput = document.getElementById('area-image');
             
             // Lấy danh sách quận từ API
-            fetch('https://localhost:7296/api/Districts')
+            fetch('https://publicapi.twm420.com/api/Districts')
                 .then(response => response.json())
                 .then(districts => {
                     districts.forEach(district => {
@@ -215,7 +215,7 @@
                 formData.append('image', areaImageInput.files[0]);  // Hình ảnh
 
                 // Gửi yêu cầu tạo sân tập
-                fetch('https://localhost:7296/api/Areas', {
+                fetch('https://publicapi.twm420.com/api/Areas', {
                     method: 'POST',
                     body: formData // Gửi FormData chứa tất cả các dữ liệu
                 })

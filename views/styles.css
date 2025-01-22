@@ -7,8 +7,10 @@
 
     /* Sử dụng lại bootstrap cho một số phần để giảm code CSS tùy chỉnh */
     html, body {
-        height: 100%; /* Đặt chiều cao cho html và body */
-        margin: 0; /* Loại bỏ margin mặc định */
+        height: 100%;
+        margin: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto; /* Header, nội dung, footer */
     }
 
     body {
@@ -138,7 +140,7 @@
     .logo {
         height: 140px; 
         width: auto; 
-        margin-right: 35px;
+        margin-right: 55px;
         margin-left: 55px;
     }
 

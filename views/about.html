@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 <style>
-
     /* Cấu trúc chính của trang */
     main {
         display: flex;
@@ -20,10 +19,14 @@
         height: 100vh; /* Chiều cao của trang bằng với chiều cao của cửa sổ trình duyệt */
         gap: 40px;
         margin: 20px;
+        padding-top: 70px; /* Khoảng cách bằng chiều cao header */
+        padding-bottom: 50px; /* Khoảng cách bằng chiều cao footer */
     }
 
     /* Phần giới thiệu về Aikido (phần bên phải) */
     .about {
+        flex-grow: 1; /* Đảm bảo phần about chiếm đủ không gian */
+        box-sizing: border-box;
         padding: 20px;
         background-color: #f4f4f9;
         border-radius: 10px;
@@ -82,7 +85,6 @@
         opacity: 0; /* Độ mờ 0 khi ẩn */
     }
 
-
     /* Các cấp độ trong cây cấp bậc */
     .level {
         display: flex;
@@ -121,7 +123,7 @@
     }
 
     /* Khi màn hình nhỏ, điều chỉnh kích thước người dùng */
-        @media (max-width: 768px) {
+    @media (max-width: 768px) {
         .user-item {
             width: 100px;
         }
@@ -236,8 +238,8 @@
 
     /* Tạo khoảng cách giữa các section */
     section {
-        margin: 0; /* Loại bỏ margin mặc định */
-        padding: 0; /* Loại bỏ padding nếu có */
+        margin: 20; /* Loại bỏ margin mặc định */
+        padding: 20; /* Loại bỏ padding nếu có */
     }
 
     /* Định dạng cho mũi tên và chữ Huấn Luyện Viên */
@@ -336,7 +338,7 @@
                 userHierarchy.style.top = ''; // Đặt lại giá trị top mặc định
             }
         });
-
+        
 
         trainerIcon.addEventListener("click", function() {
             // Kiểm tra xem phần tử đang ẩn hay hiển thị
@@ -349,7 +351,7 @@
             }
         });
                 
-        fetch('https://localhost:7296/api/Accounts')
+        fetch('https://publicapi.twm420.com/api/Accounts')
             .then(response => response.json())
             .then(data => {
                 console.log(data); // In ra dữ liệu để kiểm tra cấu trúc
@@ -369,7 +371,7 @@
 
         // Hàm lấy hình ảnh từ API dựa trên id người dùng
         function getUserImage(userId) {
-            return fetch(`https://localhost:7296/api/Accounts/Image/${userId}`)
+            return fetch(`https://publicapi.twm420.com/api/Accounts/Image/${userId}`)
                 .then(response => response.blob())
                 .then(imageBlob => URL.createObjectURL(imageBlob))
                 .catch(error => {
@@ -420,7 +422,6 @@
                 userListContainer.appendChild(levelContainer);
             }
         }
-
 
     </script>
     <div id="footer"></div>

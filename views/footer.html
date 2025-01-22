@@ -23,20 +23,61 @@
 
 <style>
     footer {
-        font-size: 0.9rem; /* Giảm kích thước chữ */
-        padding: 1rem 0; /* Giảm khoảng cách trên/dưới */
+        font-size: 0.85rem; /* Giảm kích thước chữ nhẹ */
+        padding: 0.5rem 0; /* Giảm khoảng cách trên/dưới */
+        background-color: #222; /* Màu nền tối */
+        color: #fff; /* Màu chữ trắng */
     }
+
     footer .row {
-        margin-bottom: 1rem; /* Giảm khoảng cách giữa các hàng */
+        margin-bottom: 0.5rem; /* Giảm khoảng cách giữa các hàng */
     }
+
     footer h5 {
-        font-size: 1.1rem; /* Giảm kích thước tiêu đề */
+        font-size: 1rem; /* Giảm kích thước tiêu đề */
+        margin-bottom: 0.5rem; /* Thêm khoảng cách nhỏ giữa tiêu đề và nội dung */
     }
+
     footer p {
         margin: 0;
-        line-height: 1.5; /* Giảm khoảng cách dòng */
+        line-height: 1.4; /* Giảm khoảng cách dòng */
     }
+
     footer a {
-        font-size: 0.85rem; /* Giảm kích thước chữ trong liên kết */
+        font-size: 0.8rem; /* Giảm kích thước chữ trong liên kết */
+        text-decoration: none; /* Loại bỏ gạch chân mặc định */
+        color: #fff;
     }
+
+    footer a:hover {
+        text-decoration: underline; /* Thêm gạch chân khi hover */
+    }
+
+    @media (max-width: 768px) { /* Tablet và mobile */
+        footer {
+            text-align: center; /* Căn giữa nội dung */
+            padding: 1rem 0; /* Thêm chút khoảng cách để dễ đọc hơn */
+        }
+
+        footer .row {
+            flex-direction: column; /* Các cột xếp chồng lên nhau */
+        }
+
+        footer .col-md-6 {
+            margin-bottom: 1rem; /* Thêm khoảng cách giữa các khối nội dung */
+        }
+    }
+
+    @media (max-width: 576px) { /* Mobile */
+        footer h5 {
+            font-size: 0.9rem; /* Nhỏ hơn một chút cho tiêu đề */
+        }
+
+        footer p,
+        footer a {
+            font-size: 0.75rem; /* Giảm kích thước chữ cho dễ đọc */
+        }
+    }
+
+
 </style>

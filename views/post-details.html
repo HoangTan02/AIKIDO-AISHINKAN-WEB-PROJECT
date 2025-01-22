@@ -167,7 +167,7 @@
             }
 
             // Lấy thông tin tiêu đề bài viết từ API
-            fetch(`https://localhost:7296/api/Posts/${postId}`)
+            fetch(`https://publicapi.twm420.com/api/Posts/${postId}`)
                 .then(response => response.json())
                 .then(post => {
                     if (post && post.title) {
@@ -182,7 +182,7 @@
                 });
 
             // Lấy dữ liệu từ API cho bài viết này và các contents của nó (Text)
-            fetch(`https://localhost:7296/api/Contents/Post/${postId}`)
+            fetch(`https://publicapi.twm420.com/api/Contents/Post/${postId}`)
                 .then(response => response.json())
                 .then(contents => {
                     if (contents.length === 0) {
@@ -201,14 +201,14 @@
 
                                 // Xử lý nội dung Image
                                 if (content.type === 'Image') {
-                                    contentElement.innerHTML = `<img src="https://localhost:7296/api/Contents/GetImage/${content.id}" alt="Hình ảnh" class="img-fluid" loading="lazy">`;
+                                    contentElement.innerHTML = `<img src="https://publicapi.twm420.com/api/Contents/GetImage/${content.id}" alt="Hình ảnh" class="img-fluid" loading="lazy">`;
                                 }
 
                                 // Xử lý nội dung Video
                                 if (content.type === 'Video') {
                                     contentElement.innerHTML = ` 
                                         <video controls class="img-fluid">
-                                            <source src="https://localhost:7296/api/Contents/Play/${content.content}" type="video/mp4" loading="lazy">
+                                            <source src="https://publicapi.twm420.com/api/Contents/Play/${content.content}" type="video/mp4" loading="lazy">
                                             Trình duyệt của bạn không hỗ trợ video.
                                         </video>
                                     `;
