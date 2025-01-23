@@ -173,7 +173,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        const API_URL = "https://publicapi.twm420.com/api/Accounts/Login"; // Đảm bảo URL API chính xác
+        const ENCODED_API_URL = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQWNjb3VudHMvTG9naW4=";
+        function decodeAPIUrl(encodedUrl) {
+            return atob(encodedUrl);
+        }
+        const API_URL = decodeAPIUrl(ENCODED_API_URL);
 
         async function login(phoneNumber, password) {
             try {
@@ -200,7 +204,7 @@
                     showError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
                 }
             } catch (error) {
-                showError("Lỗi khi kết nối tới API: " + (error.response?.data || error.message));
+                showError("Đăng nhập thất bại:" + (error.response?.data || error.message));
             }
         }
 

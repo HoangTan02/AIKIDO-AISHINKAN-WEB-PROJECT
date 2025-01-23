@@ -323,42 +323,49 @@
     <script>
         const trainerIcon = document.getElementById("trainerIcon");
         const userHierarchy = document.getElementById("user-hierarchy");
-        // Lắng nghe sự kiện cuộn trang và thay đổi vị trí của cây cấp bậc
-        window.addEventListener("scroll", function() {
-            const userHierarchy = document.getElementById("user-hierarchy");
-            const scrollPosition = window.scrollY; // Vị trí cuộn trang
-            const hierarchyPosition = userHierarchy.getBoundingClientRect().top;
 
-            // Nếu vị trí của cây cấp bậc vẫn chưa chạm tới trên cùng của màn hình, thì di chuyển nó theo cuộn
-            if (hierarchyPosition <= 0) {
-                userHierarchy.style.position = 'fixed';
-                userHierarchy.style.top = '20px'; // Điều chỉnh khoảng cách với trên cùng của trang nếu cần
+        const ENCODED_API_URL = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQWNjb3VudHM=";
+        const ENCODED_IMAGE_URL = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQWNjb3VudHMvSW1hZ2Uv";
+        
+        function decodeAPIUrl(encodedUrl) {
+            return atob(encodedUrl);
+        }
+
+        const API_URL = decodeAPIUrl(ENCODED_API_URL);
+        const IMAGE_URL = decodeAPIUrl(ENCODED_IMAGE_URL);
+
+        // Lắng nghe sự kiện cuộn trang và thay đổi vị trí của cây cấp bậc
+        window.addEventListener("scroll", function () {
+            const scrollPosition = window.scrollY;
+            const hierarchyTop = userHierarchy.offsetTop;
+
+            // Chuyển sang vị trí cố định khi cuộn đủ xa
+            if (scrollPosition >= hierarchyTop) {
+                userHierarchy.style.position = "fixed";
+                userHierarchy.style.top = "20px";
             } else {
-                userHierarchy.style.position = 'absolute'; // Trở lại vị trí ban đầu khi không cuộn nữa
-                userHierarchy.style.top = ''; // Đặt lại giá trị top mặc định
+                userHierarchy.style.position = "absolute";
+                userHierarchy.style.top = "";
             }
         });
-        
+
 
         trainerIcon.addEventListener("click", function() {
-            // Kiểm tra xem phần tử đang ẩn hay hiển thị
             if (userHierarchy.classList.contains("slide-in")) {
                 userHierarchy.classList.remove("slide-in");
-                userHierarchy.classList.add("slide-out");  // Thêm class slide-out khi trượt ra
+                userHierarchy.classList.add("slide-out");  
             } else {
-                userHierarchy.classList.remove("slide-out"); // Loại bỏ class slide-out khi trượt vào
-                userHierarchy.classList.add("slide-in");     // Thêm class slide-in khi trượt vào
+                userHierarchy.classList.remove("slide-out");
+                userHierarchy.classList.add("slide-in");     
             }
         });
-                
-        fetch('https://publicapi.twm420.com/api/Accounts')
+
+        fetch(API_URL)
             .then(response => response.json())
             .then(data => {
                 console.log(data); // In ra dữ liệu để kiểm tra cấu trúc
 
-                // Kiểm tra cấu trúc dữ liệu và lấy mảng người dùng từ trường 'value'
                 if (data && data.value && Array.isArray(data.value)) {
-                    // Sắp xếp mảng người dùng theo cấp độ (level)
                     data.value.sort((a, b) => a.level - b.level);
                     renderUserHierarchy(data.value);
                 } else {
@@ -371,24 +378,21 @@
 
         // Hàm lấy hình ảnh từ API dựa trên id người dùng
         function getUserImage(userId) {
-            return fetch(`https://publicapi.twm420.com/api/Accounts/Image/${userId}`)
+            return fetch(`${IMAGE_URL}${userId}`)
                 .then(response => response.blob())
                 .then(imageBlob => URL.createObjectURL(imageBlob))
                 .catch(error => {
                     console.error("Có lỗi khi lấy hình ảnh:", error);
-                    return null; // Nếu không lấy được hình ảnh, trả về null
+                    return null; 
                 });
         }
 
-        // Hàm render hiển thị cây cấp bậc người dùng
         async function renderUserHierarchy(users) {
             const userListContainer = document.getElementById('hierarchy-container');
-            userListContainer.innerHTML = '';  // Xóa nội dung cũ
+            userListContainer.innerHTML = '';  
 
-            // Nhóm người dùng theo cấp độ
             const levelGroups = {};
             users.forEach(user => {
-                // Chỉ thêm người dùng có level khác 0
                 if (user.level !== 0) {
                     if (!levelGroups[user.level]) {
                         levelGroups[user.level] = [];
@@ -397,7 +401,6 @@
                 }
             });
 
-            // Tạo phần tử cho mỗi cấp độ
             for (let level in levelGroups) {
                 const levelContainer = document.createElement('div');
                 levelContainer.classList.add('level', `level-${level}`);
@@ -406,10 +409,8 @@
                     const userElement = document.createElement('div');
                     userElement.classList.add('user-item');
 
-                    // Lấy hình ảnh người dùng từ API
                     const userImageUrl = await getUserImage(user.id);
 
-                    // Thêm thông tin người dùng
                     userElement.innerHTML = `
                         <img src="${userImageUrl || '../images/default-avatar.png'}" alt="${user.name}" class="user-image">
                         <h3>${user.name}</h3>
@@ -422,7 +423,6 @@
                 userListContainer.appendChild(levelContainer);
             }
         }
-
     </script>
     <div id="footer"></div>
 </body>

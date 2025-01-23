@@ -275,23 +275,29 @@
         }
 
 
+        let timeout = null; // Biến lưu trữ ID của timeout
+
         // Hàm lọc bảng theo tên khu vực và tên sân
         function filterTable() {
-            const districtSearch = document.getElementById('district-search').value.toLowerCase();
-            const areaSearch = document.getElementById('area-search').value.toLowerCase();
+            clearTimeout(timeout); // Xóa timeout cũ nếu có
 
-            const filteredAreas = allAreas.filter(area =>
-                area.district.toLowerCase().includes(districtSearch) &&
-                area.name.toLowerCase().includes(areaSearch)
-            );
+            // Đặt delay 500ms trước khi thực thi lọc
+            timeout = setTimeout(function () {
+                const districtSearch = document.getElementById('district-search').value.toLowerCase();
+                const areaSearch = document.getElementById('area-search').value.toLowerCase();
 
-            if (filteredAreas.length === 0) {
-                alert('Không tìm thấy kết quả phù hợp!');
-            }
+                const filteredAreas = allAreas.filter(area =>
+                    area.district.toLowerCase().includes(districtSearch) &&
+                    area.name.toLowerCase().includes(areaSearch)
+                );
 
-            populateAreasTable(filteredAreas);
+                if (filteredAreas.length === 0) {
+                    alert('Không tìm thấy kết quả phù hợp!');
+                }
+
+                populateAreasTable(filteredAreas);
+            }, 700); // Delay 500ms (bạn có thể thay đổi thời gian này)
         }
-
 
         // Hàm xóa khu vực
         async function deleteArea(areaId) {

@@ -170,7 +170,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const API_URL = "https://publicapi.twm420.com/api/Accounts/Register";  // Đảm bảo URL API chính xác
+        const ENCODED_API_URL = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQWNjb3VudHMvUmVnaXN0ZXI=";
+
+        function decodeAPIUrl(encodedUrl) {
+            return atob(encodedUrl); 
+        }
+        const API_URL = decodeAPIUrl(ENCODED_API_URL); 
 
         document.querySelector("#createAccountForm").addEventListener("submit", function (event) {
             event.preventDefault();
@@ -214,6 +219,10 @@
         function showError(message) {
             const errorMessageElement = document.getElementById("error-message");
             errorMessageElement.textContent = message;
+            errorMessageElement.style.display = "block"; // Hiển thị thông báo lỗi
+            setTimeout(() => {
+                errorMessageElement.style.display = "none"; // Tự động ẩn sau 5 giây
+            }, 5000);
         }
 
 
@@ -228,7 +237,7 @@
             if (passwordField.type === "password") {
                 this.src = "../images/eye.png"; // Mắt đóng
             } else {
-                this.src = "../images/eye.png"; // Mắt mở
+                this.src = "../images/eyeopen.png"; // Mắt mở
             }
         });
     </script>

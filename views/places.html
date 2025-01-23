@@ -109,12 +109,24 @@
         </div>
         
         <script>
-           // Lấy danh sách các quận từ API
-            fetch('https://publicapi.twm420.com/api/Districts')
+            const ENCODED_API_URL_DISTRICTS = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvRGlzdHJpY3Rz";
+            const ENCODED_API_URL_AREAS = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQXJlYXMv";
+            const ENCODED_API_URL_AREA_IMAGE = "aHR0cHM6Ly9wdWJsaWNhcGkudHdtNDIwLmNvbS9hcGkvQXJlYXMvSW1hZ2Uv";
+        
+            function decodeAPIUrl(encodedUrl) {
+                return atob(encodedUrl);
+            }
+        
+            const API_URL_DISTRICTS = decodeAPIUrl(ENCODED_API_URL_DISTRICTS);
+            const API_URL_AREAS = decodeAPIUrl(ENCODED_API_URL_AREAS);
+            const API_URL_AREA_IMAGE = decodeAPIUrl(ENCODED_API_URL_AREA_IMAGE);
+        
+            // Lấy danh sách các quận từ API
+            fetch(API_URL_DISTRICTS)
                 .then(response => response.json())
                 .then(districts => {
                     const districtsContainer = document.getElementById('districts-container');
-                    
+        
                     districts.forEach(district => {
                         const districtElement = document.createElement('div');
                         districtElement.classList.add('col-md-4', 'area');
@@ -122,28 +134,28 @@
                         districtElement.setAttribute('data-id', district.id); // Lưu districtId để so sánh với areas
                         districtElement.innerHTML = `<h3>${district.name}</h3>`;
                         districtsContainer.appendChild(districtElement);
-
+        
                         // Lắng nghe sự kiện click vào quận
                         districtElement.addEventListener('click', function(event) {
                             event.stopPropagation(); // Ngăn chặn sự kiện click lan tỏa
                             const districtName = this.getAttribute('data-area'); // Lấy tên của quận đã chọn
                             const locationsContainer = document.getElementById('locations-container');
-
+        
                             // Xóa tất cả các sân tập hiện có
                             locationsContainer.innerHTML = '';
-
+        
                             // Ẩn thông tin chi tiết
                             document.getElementById('details').style.display = 'none';
                             document.getElementById('detail-image').style.display = 'none'; // Ẩn hình ảnh
                             document.getElementById('detail-text').innerHTML = ''; // Xóa thông tin chi tiết
-
+        
                             // Lấy danh sách sân tập
-                            fetch(`https://publicapi.twm420.com/api/Areas`)
+                            fetch(API_URL_AREAS)
                                 .then(response => response.json())
                                 .then(areas => {
                                     // Lọc các sân tập thuộc khu vực có tên trùng với tên quận
                                     const filteredAreas = areas.filter(area => area.district.toLowerCase() === districtName.toLowerCase());
-
+        
                                     if (filteredAreas.length > 0) {
                                         // Thêm các sân tập vào khung
                                         filteredAreas.forEach(area => {
@@ -152,16 +164,16 @@
                                             locElement.innerText = area.name;
                                             locElement.setAttribute('data-address', area.address);
                                             locElement.setAttribute('data-description', area.description);
-                                            locElement.setAttribute('data-image', `https://publicapi.twm420.com/api/Areas/Image/${area.id}`); // Lấy hình ảnh từ API
+                                            locElement.setAttribute('data-image', `${API_URL_AREA_IMAGE}${area.id}`); // Lấy hình ảnh từ API
                                             locElement.setAttribute('data-id', area.id); // Lưu ID để khi click vào sẽ lấy chi tiết
                                             locationsContainer.appendChild(locElement);
                                         });
-
+        
                                         locationsContainer.style.display = 'block'; 
                                         setTimeout(() => { 
                                             locationsContainer.style.opacity = '1'; 
                                         }, 10); // Thời gian để chuyển tiếp
-
+        
                                         // Cuộn đến vị trí của khung sân tập
                                         locationsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     } else {
@@ -170,7 +182,7 @@
                                     }
                                 });
                         });
-
+        
                         // Lắng nghe sự kiện click vào sân tập để hiển thị chi tiết
                         document.getElementById('locations-container').addEventListener('click', function(event) {
                             const locationElement = event.target.closest('.location');
@@ -180,27 +192,27 @@
                                 const areaAddress = locationElement.getAttribute('data-address');
                                 const areaDescription = locationElement.getAttribute('data-description')
                                 const areaImage = locationElement.getAttribute('data-image');
-
+        
                                 // Hiển thị thông tin chi tiết
                                 document.getElementById('details').style.display = 'block';
                                 document.getElementById('detail-image').style.display = 'block';
                                 document.getElementById('detail-image').setAttribute('src', areaImage);
-
+        
                                 // Thêm tên sân tập vào phần chi tiết
                                 document.getElementById('detail-text').innerHTML = `
                                     <p><strong>Tên sân tập:</strong> ${areaName}</p>
                                     <p><strong>Địa chỉ:</strong> ${areaAddress}</p>
                                     <p><strong>Thông tin:</strong> ${areaDescription}</p>
                                 `;
-
+        
                                 // Cuộn đến vị trí của khung chi tiết
                                 document.getElementById('details').scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }
                         });
-
+        
                     });
                 });
-        </script>
+        </script>        
     </main>
     <div id="footer"></div>
 </body>
